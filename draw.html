@@ -1,0 +1,262 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Fischer Shop</title>
+  <link rel="stylesheet" href="css/shop.css">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" >
+
+</head>
+<body>
+
+  <section class="chat-box">
+    <section class="chat-comment" id="chatMessage"></section>
+
+    <section class="chat-typer">
+      <textarea class="chat-textarea" id="chatText">wed</textarea>
+      <!--<button class="chat-button" id="sendIt">SEND</button>-->
+    </section>
+  </section>
+
+  <section class="white-box-back">
+
+    <section class="controller" style="z-index:10;">
+
+      <button type="button" class="cot-btn" aria-label="Left Align" id="plusCursor">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="cot-btn" aria-label="Left Align" id="dragCursor">
+        <span class="glyphicon"><img  class="glyphicon" aria-hidden="true" src="glyphicons_free/glyphicons/png/glyphicons-187-move.png"/></span>
+
+      </button>
+
+      <!--reset button -->
+      <div class="reset-btn">
+        <button type="button" class="cot-btn" aria-label="Left Align" id="resetBtnB">
+          <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+        </button>
+
+        <!--save options -->
+        <div class="bn">
+
+          <!--save button -->
+          <button type="button" class="cot-btn" aria-label="Left Align" id="saveImageBtnB2">
+            <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+
+          </button>
+          <div style="display: none; float:left;" id="saving-options">
+            <div class="dropdown">
+              <button class="dropbtn">Dwonload As</button>
+              <div class="dropdown-content">
+                <a href="#" id="saveImageBtnB">Image</a>
+                <a download="info.svg" href="#" id="svgBlob">SVG</a>
+                <a href="#" id="jsonBlob">Json</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!--background colour -->
+      <input type="color" value="#005E7A" id="drawing-background-color" class="cot-btn"><br>
+
+      <!--random background colour -->
+      <div class="randCol-btn">
+        <button type="button" class="cot-btn" aria-label="Left Align" id="randColour" alt="Random Colour">
+          <span class="glyphicon glyphicon-tint" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <!--erase button -->
+      <button type="button" class="cot-btn" aria-label="Left Align" id="eraseBtn" alt="Erase">
+        <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
+      </button>
+
+      <!--patterns -->
+      <div class="editCol-btn" >
+        <div class="bn">
+
+          <button type="button" style=" float:left;" class="cot-btn" aria-label="Left Align" id="editColour">
+            <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
+          </button>
+
+          <div style="display: none; float:left;" id="drawing-options">
+
+            <button type="button" class="cot-btn" aria-label="Left Align" id="editPencil">
+              <span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span>
+            </button>
+
+            <button type="button" class="cot-btn" aria-label="Left Align" id="editcircle">
+
+              <span class="glyphicon"><img  class="glyphicon" aria-hidden="true" src="glyphicons_free/glyphicons/png/glyphicons-96-vector-path-circle.png"/></span>
+
+            </button>
+
+            <button type="button" class="cot-btn" aria-label="Left Align" id="editSpray" >
+              <span class="glyphicon"><img  class="glyphicon" aria-hidden="true" src="glyphicons_free/glyphicons/png/glyphicons-373-spray.png"/></span>
+
+            </button>
+
+            <button type="button" class="cot-btn" aria-label="Left Align" id="editPattern" >
+              <span class="glyphicon"><img  class="glyphicon" aria-hidden="true" src="glyphicons_free/glyphicons/png/glyphicons-100-vector-path-all.png"/></span>
+
+            </button>
+            <button type="button" class="cot-btn" aria-label="Left Align" id="editHline" >
+              <span class="glyphicon"><img  class="glyphicon" aria-hidden="true" src="glyphicons_free/glyphicons/png/glyphicons-98-vector-path-line.png"/></span>
+
+            </button>
+            <button type="button" class="cot-btn" aria-label="Left Align" id="editVline" >
+              <span class="glyphicon"><img  class="glyphicon" aria-hidden="true" src="glyphicons_free/glyphicons/png/glyphicons-159-show-lines.png"/></span>
+
+            </button>
+            <button type="button" class="cot-btn" aria-label="Left Align" id="editSquare" >
+              <span class="glyphicon"><img  class="glyphicon" aria-hidden="true" src="glyphicons_free/glyphicons/png/glyphicons-95-vector-path-square.png"/></span>
+
+            </button>
+
+            <button type="button" class="cot-btn" aria-label="Left Align" id="editDiamond" >
+              <span class="glyphicon glyphicon-stop" aria-hidden="true" ></span>
+            </button>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!--width options dragger -->
+      <div class="bn">
+        <button type="button" class="cot-btn" aria-label="Left Align" id="editWidth" >
+          <span class="glyphicon glyphicon-resize-horizontal" aria-hidden="true" ></span>
+        </button>
+        <div style="display: none; float:left;" id="drawing-width">
+          <button type="button" class="cot-btn2" aria-label="Left Align">
+            <input type="range" value="30" min="0" max="150" id="drawing-line-width"><br>
+          </button>
+        </div>
+      </div>
+
+      <!--text button -->
+      <button type="button" class="cot-btn" aria-label="Left Align" id="textBtn" >
+        <span class="glyphicon glyphicon-font" aria-hidden="true" ></span>
+      </button>
+
+      <!--drawing colour -->
+      <input type="color" value="#005E7A" id="drawing-color" class="cot-btn"><br>
+
+      <!--shadow options dragger -->
+      <div class="bn">
+        <button type="button" class="cot-btn" aria-label="Left Align" id="editShadow" >
+          <span class="glyphicon glyphicon-resize-horizontal" aria-hidden="true" ></span>
+        </button>
+        <div style="display: none; float:left;" id="drawing-shadow">
+          <button type="button" class="cot-btn2" aria-label="Left Align">
+            <input type="range" value="0" min="0" max="50" id="drawing-shadow-width"><br>
+          </button>
+        </div>
+      </div>
+
+      <!--upload button -->
+      <a  href="#popupUpload">
+        <button type="button" class="cot-btn" aria-label="Left Align" id="uploadImageBtnB">
+          <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+        </button>
+      </a>
+      <div id="popupUpload" class="overlay">
+        <div class="popup">
+          <h2>Here i am</h2>
+          <a class="close" href="#">&times;</a>
+          <div class="content">
+            <label class="fileUpload">
+              <img src="images/clicki.png" alt="click or grag to upload" class="clicki"/>
+              <input type="file" accept="image/svg, application/json"  id="uploadCanvas">
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--canvas -->
+    <section class="white-box" id="white_board_c">
+      <canvas id="c" width="759" height="500" class="canvas-tu" ></canvas>
+    </section>
+
+    <section class="white-box-other">
+      svffwef
+    </section>
+
+    <!--
+    <img src="glyphicons_free/glyphicons/png/glyphicons-373-spray.png"/>
+
+    btn btn-default
+    <div id="hex">
+    HEX:
+    <input type="text"></input>
+  </div>
+  <div id="rgb">RGB:
+  <input type="text"></input>
+</div>
+
+-->
+
+<div id="missionDraw" class="overlay">
+  <div class="popup">
+    <!--<h2>Here i am</h2>-->
+    <a class="close" href="#">&times;</a>
+    <div class="content">
+      <p class="parag">Please select a choice from the button options below.</p>
+      <div class="centerAlign">
+        <select id="userChoice" class="userOpt" >
+          <option value="">Choose</option>
+          <option value="single">Single Drawing</option>
+          <option value="group">Group Drawing</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="missionCode" class="overlay">
+  <div class="popup">
+    <!--<h2>Here i am</h2>-->
+    <a class="close" href="#">&times;</a>
+    <div class="content">
+      <div class="centerAlign">
+        <p class="parag">Type in the code of the session you want to join</p>
+        <input  id="sessionID" alt="Session Id"/>
+        <input  id="sessionName" alt="Your Name"/>
+        <button id="joinSession">Next</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="missionJoin" class="overlay">
+  <div class="popup">
+    <!--<h2>Here i am</h2>-->
+    <a class="close" href="#">&times;</a>
+    <div class="content">
+      <p class="parag">Draw Away</p>
+      <div class="centerAlign">
+        <button id="sendIt">Join</button>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="fabric/dist/fabric.min.js"></script>
+<script src="js/fischer.js"></script>
+<script src="js/controls.js"></script>
+<script src="js/pattern.js"></script>
+<script src="js/downloadfile.js"></script>
+<script src="js/uploadfile.js"></script>
+<script src="js/chat.js"></script>
+<script src="js/wbs.js"></script>
+<script src="js/student.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+.outer_body
+{
+  background-color: red;
+  
+}
+
+.inner_body
+{
+  background-color: blue;
+  width: 1000px;
+  margin: auto;
+  position: relative;
+}
+
+.jumbotron
+{
+  width: 900px;
+  height: 100px;
+  background-color: purple;
+  float: left;
+  position: relative;
+}
+
+.controls
+{
+  width: 900px;
+  height: 100px;
+  background-color: grey;
+  float: left;
+  text-align: center;
+}
+.dashboard
+{
+width: 100px;
+height: 700px;
+background-color: orange;
+position: relative;
+float: left;
+}
+.drawtm
+{
+width: 900px;
+height: 500px;
+position: relative;
+float: left;
+background-color: green;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+  	-moz-box-sizing: border-box;
+		-o-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+
+.vb
+{
+  position: relative;
+  display: inline-block;
+  width: 80px;
+  height: 90px;
+}
+
+
+
+	.round {
+		display: block;
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		/*padding-top: 30px;*/
+		text-decoration: none;
+		text-align: center;
+		font-size: 25px;
+		text-shadow: 0 1px 0 rgba(255,255,255,.7);
+		letter-spacing: -.065em;
+		font-family: "Hammersmith One", sans-serif;
+		box-shadow: 2px 2px 7px rgba(0,0,0,.2);
+		border-radius: 300px;
+		z-index: 1;
+		border-width: 4px;
+		border-style: solid;
+	}
+
+	.round:hover {
+		width: 100%;
+		height: 100%;
+		padding-top: 38px;
+		-webkit-box-shadow: 5px 5px 10px rgba(0,0,0,.3);
+		-o-box-shadow: 5px 5px 10px rgba(0,0,0,.3);
+		-moz-box-shadow: 5px 5px 10px rgba(0,0,0,.3);
+		box-shadow: 5px 5px 10px rgba(0,0,0,.3);
+		z-index: 2;
+		border-size: 10px;
+		-webkit-transform: rotate(-360deg);
+		-moz-transform: rotate(-360deg);
+		-o-transform: rotate(-360deg);
+		transform: rotate(-360deg);
+	}
+
+
+	.round span.round {
+		display: block;
+		opacity: 0;
+		-webkit-transition: all .5s ease-in-out;
+		-moz-transition: all .5s ease-in-out;
+		-o-transition: all .5s ease-in-out;
+		transition: all .5s ease-in-out;
+		font-size: 1px;
+		border: none;
+		padding: 40% 20% 0 20%;
+		color: #fff;
+	}
+
+	.round span:hover {
+		opacity: .40;
+		font-size: 7px;
+
+	}
+
+	.green span {
+		background: rgba(0,63,71,.7);
+	}
+
+	.red span {
+		background: rgba(133,32,28,.7);
+	}
+
+	.yellow span {
+		background: rgba(161,145,0,.7);
+
+	}

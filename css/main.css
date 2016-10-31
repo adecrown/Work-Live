@@ -1,0 +1,22 @@
+body
+{
+  background-color: red;
+  margin: 0 auto;
+}
+button
+{
+  width: 200px;
+  height: 50px;
+  font-size: 25px;
+}
+.main_btn
+{
+  text-align: center;
+  padding-bottom: 35px;
+}
+
+.btn_m
+{
+  margin-top: 25%;
+
+}
