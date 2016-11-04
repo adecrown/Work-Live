@@ -1,5 +1,5 @@
 // Connect to the nodeJs Server
-io = io.connect('http://'+window.location.hostname+':8081/');
+io = io.connect('/');
 //io = io.connect(window.location.hostname);
 // (1): Send a ping event with
 // some data to the server
@@ -45,7 +45,7 @@ io.on('notifyTeacher', function (username, data) {
 	console.log(username, data);
 	var student = data;
 	//document.getElementById('board').innerHTML = "<a href='http://"+window.location.hostname+"/views/sview.php?room="+student.room+"'> "+student.name+" </a>";
-	var result = "<a href='http://"+window.location.hostname+"/views/sview.php?room="+student.room+"'> "+student.name+" </a>";
+	var result = "<a href='http://"+window.location.hostname+"8081/views/sviewt.php?room="+student.room+"'> "+student.name+" </a>";
 	htmlAppend("board","div",result);
 	//<a href="http://www.w3schools.com">Visit W3Schools</a>
 });

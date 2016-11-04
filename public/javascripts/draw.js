@@ -93,9 +93,21 @@ function onMouseDrag(event) {
     drawLine2(event.point.x,event.point.y);
     emitLine(event.point.x,event.point.y,"",2)
   }
+  else if(wTool == "lin")
+  {
+
+    var step = event.delta / 2;
+    step.angle += 90;
+    //var top = event.middlePoint + step;
+    //var bottom = event.middlePoint - step;
+    console.log(event);
+    drawBrush2(event.middlePoint,step);
+    //emitBrush(event,2)
+  }
 
 
 };
+
 
 
 function onMouseDown(event) {
@@ -116,11 +128,28 @@ function onMouseDown(event) {
     drawLine(event.point.x,event.point.y,maincolor);
     emitLine(event.point.x,event.point.y,maincolor,1)
   }
+  else if(wTool == "lin")
+  {
+    var x = event.point.x;
+    var y = event.point.y;
+    drawBrush(x,y);
+    emitBrush(event,x,y,1)
+  }
+
 }
 
 
 
+function onMouseUp(event) {
+  if(wTool == "lin")
+  {
+    var x = event.point.x;
+    var y = event.point.y;
+    drawBrush3(x,y);
+    emitBrush(event,x,y,3)
+  }
 
+}
 
 
 
@@ -362,8 +391,89 @@ io.on( 'drawText', function( data ) {
 
 
 
+///////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+///////////////////                             /////////////////////
+//////////////////   DRAW BRUSH SECTION          ////////////////////
+/////////////////                               ///////////////////
+//////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+function drawBrush(x,y)
+{
+  tool.minDistance = 10;
+  tool.maxDistance = 45;
+  path = new Path();
+  path.fillColor = {
+    hue: Math.random() * 360,
+    saturation: 1,
+    brightness: 1
+  };
+
+  path.add(x,y);
+}
+
+function drawBrush2(point,step)
+{
+  console.log(point);
+
+  console.log(step);
+  var top = point+ step;
+  var bottom = point - step;
 
 
+
+  path.add(top);
+  path.insert(0, bottom);
+  path.smooth();
+}
+
+
+function drawBrush3(x,y)
+{
+  path.add(x,y);
+  path.closed = true;
+  path.smooth();
+}
+
+
+
+function emitBrush(event,x,y,which) {
+
+  // An object to describe the circle's draw data
+  var data;
+  data = {
+    w:which,
+    xs:x,
+    ys:y
+    //f:event
+  };
+
+  //console.log(data);
+  emitPatterns('drawBrush',data);
+}
+
+
+io.on( 'drawBrush', function( data ) {
+
+  console.log( 'drawBrush event recieved:', data );
+
+  // Draw the line using the data sent
+  // from another user
+
+  if(data.w == 1)
+  {
+    drawBrush(data.xs,data.ys);
+  }
+  else if(data.w == 2)
+  {
+    drawBrush2(event);
+  }
+  else {
+    drawBrush3(data.xs,data.ys);
+  }
+
+})
 
 
 

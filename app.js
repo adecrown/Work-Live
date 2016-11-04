@@ -1,28 +1,61 @@
 
 // Express requires these dependencies
 var express = require('express')
-, routes = require('./routes')
-, user = require('./routes/user')
+//, routes = require('./routes')
+//, user = require('./routes/user')
 , http = require('http')
-, path = require('path');
+, path = require('path')
+, flash    = require('connect-flash')
+, mongoose = require('mongoose')
+, morgan       = require('morgan')
+, cookieParser = require('cookie-parser')
+, bodyParser   = require('body-parser')
+, session      = require('express-session')
+, passport = require('passport');
+
+
 
 var app = express();
+
+
+
+var configDB = require('./config/database.js');
+
+// configuration ===============================================================
+mongoose.connect(configDB.url); // connect to our database
+
+require('./config/passport')(passport); // pass passport for configuration
+
+
 
 // Configure our application
 app.configure(function(){
   app.set('port', process.env.PORT || 8081);
-  app.set('views', __dirname + '/views');
-  //  app.set('view engine', 'jade');
+//  app.set('views', __dirname + '/views');
+  app.set('view engine', 'ejs');
   //app.engine('html', require('ejs').renderFile);
-  app.engine('.php', require('ejs').renderFile);
+//  app.engine('.php', require('ejs').renderFile);
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(app.router);
+  //app.use(app.router);
+  app.use(express.cookieParser());
+  //  app.use(express.session({secret: '1234567890QWERTY'}));
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(express.static(path.join(__dirname, 'js')));
   app.use(express.static(path.join(__dirname, 'css')));
+  // required for passport
+  app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+  app.use(passport.initialize());
+  app.use(passport.session()); // persistent login sessions
+  app.use(flash()); // use connect-flash for flash messages stored in session
+
+  // set up our express application
+  app.use(morgan('dev')); // log every request to the console
+  //  app.use(cookieParser()); // read cookies (needed for auth)
+  //app.use(bodyParser()); // get information from html forms
+
 });
 
 // Configure error handling
@@ -30,22 +63,29 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+
+
+
+//require('./routes/index.js')(routes, passport); // load our routes and pass in our app and fully configured passport
+require('./routes/routes.js')(app,passport);
+
+
 // Setup Routes
 //app.get('/', routes.index);
 //app.get('/users', user.list);
 
-app.get('/', function(req, res){
-  res.render("index.php");
+/*app.get('/', function(req, res){
+res.render("index.php");
 });
 
 app.get('/dash', function(req, res){
-  res.render("dash.php");
+res.render("dash.php");
 });
 
 app.get('/sview', function(req, res){
-  res.render("sview.php");
+res.render("sview.php");
 });
-
+*/
 // Enable Socket.io
 var server = http.createServer(app).listen( app.get('port') );
 var io = require('socket.io').listen( server );
@@ -138,6 +178,17 @@ io.sockets.on('connection', function (socket) {
 
     //socket.in.emit( 'drawCircle', data );
     io.sockets.in(socket.room).emit( 'drawLine', data );
+    //socket.broadcast.emit( 'drawCircle', data );
+
+  });
+
+  socket.on( 'drawBrush', function( data, session ) {
+
+    console.log( "session " + session + " drew:");
+    console.log( data );
+
+    //socket.in.emit( 'drawCircle', data );
+    io.sockets.in(socket.room).emit( 'drawBrush', data );
     //socket.broadcast.emit( 'drawCircle', data );
 
   });
