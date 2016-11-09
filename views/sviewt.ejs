@@ -14,6 +14,17 @@
     <div>
       <!--<button id="md" value="<?php echo $_SESSION['user_id'] ; ?>"></button>-->
       <button id="md" value="<%= user._id%>"></button>
+
+      <% var jsndata = jsdata %>
+      <script>
+      var getTest = <%- JSON.stringify(jsndata) %>;
+      //var getTest = <%= jsndata  %>;  //var test is now assigned to getTest which will only work on browsers
+      //console.log(getTest);  // successfully prints 101 on browser
+      //  paper.project.importJSON(getTest);
+      </script>
+
+
+      
       <button id="dCircle" class="dropbtn">Circle</button>
 
       <div class="dropdown">

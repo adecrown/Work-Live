@@ -27,7 +27,6 @@ mongoose.connect(configDB.url); // connect to our database
 require('./config/passport')(passport); // pass passport for configuration
 
 
-
 // Configure our application
 app.configure(function(){
   app.set('port', process.env.PORT || 8081);
@@ -67,6 +66,7 @@ app.configure('development', function(){
 
 
 //require('./routes/index.js')(routes, passport); // load our routes and pass in our app and fully configured passport
+
 require('./routes/routes.js')(app,passport);
 
 

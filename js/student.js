@@ -20,9 +20,6 @@ var myId = Math.floor((Math.random() * 200) + 100);
 console.log(myId);
 
 
-
-
-
 /*
 var myTeacherId = last_segment;
 var myId = Math.floor((Math.random() * 200) + 100);

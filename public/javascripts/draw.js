@@ -1,4 +1,4 @@
-
+paper.install(window);
 // The faster the user moves their mouse
 // the larger the circle will be
 // We dont want it to be larger than this
@@ -33,6 +33,16 @@ __("dLine").onclick = function()
 {
 
   wTool = "line";
+  /*
+  var canvas = document.getElementById("draw");
+var ctx = canvas.getContext("2d");
+  var data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+      console.log(data);
+      console.log(JSON.stringify(data))*/
+    //  exportJSON();
+  //  console.log(paper.Project.toString());
+  //console.log(draw.activeLayer.exportJSON());
 }
 
 __("dCircle").onclick = function()
@@ -57,6 +67,7 @@ var pathio;
 // every time the user drags their mouse
 // this function will be executed
 function onMouseDrag(event) {
+
   var maincolor = __("drawing-color").value;
   // Take the click/touch position as the centre of our circle
   var x = event.middlePoint.x;
@@ -148,7 +159,7 @@ function onMouseUp(event) {
     drawBrush3(x,y);
     emitBrush(event,x,y,3)
   }
-
+saveCode();
 }
 
 
@@ -166,8 +177,9 @@ function drawCircle( x, y, radius, color ) {
 
   // Render the circle with Paper.js
   var circle = new Path.Circle( new Point( x, y ), radius );
-  circle.fillColor = new RgbColor( color.red, color.green, color.blue, color.alpha );
+  circle.fillColor = new Color( color.red, color.green, color.blue, color.alpha );
 
+console.log(project.exportJSON())
   // Refresh the view, so we always get an update, even if the tab is not in focus
   view.draw();
 }
@@ -477,6 +489,51 @@ io.on( 'drawBrush', function( data ) {
 
 
 
+function saveCode()
+{
+  console.log(paper.project.exportJSON());
+  if(typeof tsessionId !== 'undefined')
+  {
+    saveJson(tsessionId,paper.project.exportJSON());
+  }
+  else {
+    saveJson(myId,paper.project.exportJSON());
+  }
+
+
+}
+
+function uploadCode()
+{
+  if(typeof tsessionId !== 'undefined')
+  {
+    paper.project.importJSON(getTest);
+    console.log("json collected from database");
+  }
+
+}
+uploadCode();
+
+
+function saveJson(myIds,jsond)
+{
+var http = new XMLHttpRequest();
+var url = "/students";
+var params = "idss="+myIds+"&jsondata="+jsond;
+console.log(params);
+http.open("POST", url, true);
+
+//Send the proper header information along with the request
+http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+http.onreadystatechange = function() {//Call a function when the state changes.
+    if(http.readyState == 4 && http.status == 200) {
+
+        //alert(http.responseText);
+    }
+}
+http.send(params);
+}
 
 function emitPatterns(name,data) {
 

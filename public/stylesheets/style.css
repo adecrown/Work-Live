@@ -6,7 +6,10 @@ body {
 a {
   color: #00B7FF;
 }
-
+canvas[resize] {
+    width: 100%;
+    height: 100%;
+}
 .dropbtn {
     background-color: #4CAF50;
     color: white;

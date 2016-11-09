@@ -33,16 +33,33 @@
         </div>
       </div>
     </div>
+    <br/>
+    <br/>
+    <!-- show any messages that come back with authentication -->
+    <% if (message.length > 0) { %>
+        <div class="alert alert-danger"><%= message %></div>
+    <% } %>
 
-    <canvas id="draw"  keepalive="true" resize="true"></canvas>
-    <script>
-    canvas="draw";
-    </script>
+    <!-- LOGIN FORM -->
+    <form action="/students" method="post">
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" class="form-control" name="idss">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="text" class="form-control" name="jsondata">
+        </div>
+
+        <button type="submit" class="btn btn-warning btn-lg">Signup</button>
+    </form>
+    <canvas id="draw"  keepalive="true" resize></canvas>
+
   </section>
 
   <script src="javascripts/draw.js" canvas="draw" type="text/paperscript"></script>
   <script src="student.js"></script>
   <script src="javascripts/socket.js"></script>
-  <script src="javascripts/paper.js"></script>
+  <script type="text/javascript" src="javascripts/paper.js"></script>
 </body>
 </html>
