@@ -18,6 +18,7 @@ var userSchema = mongoose.Schema({
     teacher            : {
         username     : String,
         password     : String,
+        jsondata     : String,
     },
     codeJson            : {
         idss     : String,

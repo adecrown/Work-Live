@@ -14,10 +14,28 @@ module.exports = function(app,passport) {
   });
 
 
-
+/*
   app.get('/students', function(req, res) {
     res.render('students.ejs', { message: req.flash('kMessage') }); // load the index.ejs file
   });
+*/
+
+  app.get('/students', function(req, res) {
+    var User            = require('../routes/user');
+  
+    User.findOne({'teacher.username' : req.query.id}, function(err, doc) {
+               res.render('students.ejs', {
+                 jsdata    : doc.teacher.jsondata,
+                 message: req.flash('kMessage')
+
+               });
+
+       });
+
+  });
+
+
+
 
 
   app.post('/students', passport.authenticate('data-json', {
@@ -28,7 +46,18 @@ module.exports = function(app,passport) {
   }));
 
 
+  app.get('/dash', isLoggedIn,function(req, res) {
+    res.render('dash.ejs', {
+      user : req.user // get the user out of session and pass to template
+    }); // load the index.ejs file
+  });
 
+  app.post('/dash', passport.authenticate('teacher-data-json', {
+    session: false,
+    successRedirect : '/profile', // redirect to the secure profile section
+    failureRedirect : '/students', // redirect back to the signup page if there is an error
+    failureFlash : true // allow flash messages
+  }));
 
   //teachers
   /*app.get('/sviewt', isLoggedIn,function(req, res) {
@@ -47,14 +76,10 @@ module.exports = function(app,passport) {
                });
 
        });
-  
+
   });
 
-  app.get('/dash', isLoggedIn,function(req, res) {
-    res.render('dash.ejs', {
-      user : req.user // get the user out of session and pass to template
-    }); // load the index.ejs file
-  });
+
 
 
 

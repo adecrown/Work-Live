@@ -62,6 +62,7 @@ module.exports = function(passport) {
           // set the user's local credentials
           newUser.teacher.username    = username;
           newUser.teacher.password = newUser.generateHash(password);
+          newUser.teacher.jsondata = "";
 
           // save the user
           newUser.save(function(err) {
@@ -180,6 +181,37 @@ module.exports = function(passport) {
 
 
 
+  passport.use('teacher-data-json', new LocalStrategy({
+    // by default, local strategy uses username and password, we will override with our json id an d json data
+    usernameField : 'username',
+    passwordField : 'jsondata',
+    passReqToCallback : true // allows us to pass back the entire request to the callback
+  },
+  function(req, username, jsondata, done) {
+    process.nextTick(function() {
+      // find a user whose username is the same as the forms username
+      // we are checking to see if the user trying to login already exists
+      User.findOne({ 'teacher.username' :  username }, function(err, user) {
+        // if there are any errors, return the error
+        if (err)
+        return done(err);
+
+        // check to see if theres already a user with that username
+        if (user) {
+          user.teacher.jsondata = jsondata;
+          user.save(function (err) {
+            if (err) {
+              console.log(err);
+            }
+          });
+          //return done(null, false, req.flash('kMessage', 'That username is already taken.'));
+        } 
+
+    });
+
+  });
+
+}));
 
 
 

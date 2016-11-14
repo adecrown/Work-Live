@@ -14,7 +14,8 @@ io.on('connect', function(){
 	//if(tId === undefined)
 	if (typeof tId != 'undefined')
 	{
-		io.emit('adduser',tId2,tId,"");
+	//	io.emit('adduser',tId2,tId,""); //teachers (dash.ejs) user id as the session id
+		io.emit('adduser',tId,tId2,""); //teachers (dash.ejs) username as the session id
 	}
 	else {
 		if (typeof checkOn != 'undefined')
@@ -23,7 +24,8 @@ io.on('connect', function(){
 		}
 		else
 		{
-			io.emit('adduser', prompt("What's your name?"),myId,prompt("Session Id?"));
+
+			io.emit('adduser', prompt("What's your name?"),myId,joiningSession);// students (student.ejs)
 		}
 	}
 });

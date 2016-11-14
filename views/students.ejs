@@ -53,7 +53,23 @@
 
         <button type="submit" class="btn btn-warning btn-lg">Signup</button>
     </form>
-    <canvas id="draw"  keepalive="true" resize></canvas>
+
+
+    <% var jsonC = jsdata %>
+    <script>
+    var getjsonC;
+    //console.log(<%-jsonC%>);
+    if(<%-jsonC%>)
+    {
+      getjsonC ="";
+    }
+    else {
+      getjsonC = <%- JSON.stringify(jsonC) %>;
+    }
+
+    console.log(getjsonC);
+    </script>
+    <canvas id="draw"   keepalive="true" resize></canvas>
 
   </section>
 

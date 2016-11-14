@@ -1,4 +1,9 @@
 paper.install(window);
+if(typeof joiningSession !== 'undefined')
+{
+  saveCode();
+}
+
 // The faster the user moves their mouse
 // the larger the circle will be
 // We dont want it to be larger than this
@@ -35,12 +40,12 @@ __("dLine").onclick = function()
   wTool = "line";
   /*
   var canvas = document.getElementById("draw");
-var ctx = canvas.getContext("2d");
+  var ctx = canvas.getContext("2d");
   var data = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-      console.log(data);
-      console.log(JSON.stringify(data))*/
-    //  exportJSON();
+  console.log(data);
+  console.log(JSON.stringify(data))*/
+  //  exportJSON();
   //  console.log(paper.Project.toString());
   //console.log(draw.activeLayer.exportJSON());
 }
@@ -159,7 +164,7 @@ function onMouseUp(event) {
     drawBrush3(x,y);
     emitBrush(event,x,y,3)
   }
-saveCode();
+  saveCode();
 }
 
 
@@ -179,7 +184,7 @@ function drawCircle( x, y, radius, color ) {
   var circle = new Path.Circle( new Point( x, y ), radius );
   circle.fillColor = new Color( color.red, color.green, color.blue, color.alpha );
 
-console.log(project.exportJSON())
+  console.log(project.exportJSON())
   // Refresh the view, so we always get an update, even if the tab is not in focus
   view.draw();
 }
@@ -494,10 +499,17 @@ function saveCode()
   console.log(paper.project.exportJSON());
   if(typeof tsessionId !== 'undefined')
   {
-    saveJson(tsessionId,paper.project.exportJSON());
+    saveJson("student",tsessionId,paper.project.exportJSON());
   }
   else {
-    saveJson(myId,paper.project.exportJSON());
+    if(typeof myId !== 'undefined')
+    {
+      saveJson("student",myId,paper.project.exportJSON());
+    }
+    else {
+
+       saveJson("teacher",getTUsername,paper.project.exportJSON());
+    }
   }
 
 
@@ -510,29 +522,43 @@ function uploadCode()
     paper.project.importJSON(getTest);
     console.log("json collected from database");
   }
+  else if (typeof getjsonC !== 'undefined') {
+    paper.project.importJSON(getjsonC);
+    console.log("json collected from database");
+  }
 
 }
 uploadCode();
 
 
-function saveJson(myIds,jsond)
+function saveJson(who,myIds,jsond)
 {
-var http = new XMLHttpRequest();
-var url = "/students";
-var params = "idss="+myIds+"&jsondata="+jsond;
-console.log(params);
-http.open("POST", url, true);
+  var http = new XMLHttpRequest();
+  var url;
+  var params;
+  if(who == "student")
+  {
+    url = "/students";
+    params = "idss="+myIds+"&jsondata="+jsond;
+  }
+  else {
+    url = "/dash";
+    params = "username="+myIds+"&jsondata="+jsond;
+  }
 
-//Send the proper header information along with the request
-http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  console.log(params);
+  http.open("POST", url, true);
 
-http.onreadystatechange = function() {//Call a function when the state changes.
+  //Send the proper header information along with the request
+  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  http.onreadystatechange = function() {//Call a function when the state changes.
     if(http.readyState == 4 && http.status == 200) {
 
-        //alert(http.responseText);
+      //alert(http.responseText);
     }
-}
-http.send(params);
+  }
+  http.send(params);
 }
 
 function emitPatterns(name,data) {
