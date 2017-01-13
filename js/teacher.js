@@ -12,7 +12,7 @@ console.log(tId);
 var tId = document.getElementById('sendIt').value;
 var tId2 = document.getElementById('mDrawSession').value;
 
-
+var myTeachersLastD ="";
 
 // creates a new element
 function htmlAppend(id,element,result)

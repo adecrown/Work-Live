@@ -67,6 +67,7 @@ __("dMulti").onclick = function()
 
 
 
+
 var pathio;
 
 // every time the user drags their mouse
@@ -408,6 +409,7 @@ io.on( 'drawText', function( data ) {
 
 
 
+
 ///////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 ///////////////////                             /////////////////////
@@ -494,9 +496,93 @@ io.on( 'drawBrush', function( data ) {
 
 
 
+///////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+///////////////////                             /////////////////////
+//////////////////   change background          ////////////////////
+/////////////////                               ///////////////////
+//////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+var drawingColorBackEl = document.getElementById('drawing-background-color')
+function changeBg(value)
+{
+  var canvasLayer = document.getElementById("draw");
+  canvasLayer.style.background = value;
+}
+
+function emitchangeBg(value) {
+
+  // An object to describe the circle's draw data
+  var data;
+  data = {
+    val:value
+  };
+
+  //console.log(data);
+  emitPatterns('changeBg',data);
+}
+
+io.on( 'changeBg', function( data ) {
+
+  console.log( 'changeBg event recieved:', data );
+  changeBg(data.val);
+})
+
+drawingColorBackEl.onchange = function(){
+  changeBg(drawingColorBackEl.value);
+  emitchangeBg(drawingColorBackEl.value);
+}
+
+
+
+
+
+function createCookie(name, data, exp)
+{
+  var d = new Date();
+  d.setTime(d.getTime() + (exp*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = name + "=" + data + ";" + expires + ";path=/";
+}
+
+function getCookie(cname)
+{
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0)==' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length,c.length);
+    }
+  }
+  return "";
+}
+
+function checkCookie(data)
+{
+  var jsond=getCookie(data);
+  if (jsond!="")
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+
 function saveCode()
 {
-  console.log(paper.project.exportJSON());
+  //console.log(paper.project.exportJSON());
+
+  createCookie("checking","cheking", 1);
+  localStorage.setItem("pdata", paper.project.exportJSON());
+
+
   if(typeof tsessionId !== 'undefined')
   {
     saveJson("student",tsessionId,paper.project.exportJSON());
@@ -508,7 +594,7 @@ function saveCode()
     }
     else {
 
-       saveJson("teacher",getTUsername,paper.project.exportJSON());
+      saveJson("teacher",getTUsername,paper.project.exportJSON());
     }
   }
 
@@ -522,17 +608,42 @@ function uploadCode()
     paper.project.importJSON(getTest);
     console.log("json collected from database");
   }
+
   else if (typeof getjsonC !== 'undefined') {
+    //  console.log(getjsonC);
     paper.project.importJSON(getjsonC);
     console.log("json collected from database");
+  }
+
+  else if (typeof myTeachersLastD !== 'undefined') { // dasj.ejs
+    if(checkCookie("checking"))
+    {
+      loadFromCookie();
+    }
   }
 
 }
 uploadCode();
 
 
+
+function loadFromCookie()
+{
+  var answer = confirm("Would you like to load your previous drawing?")
+  if (answer)
+  {
+    var jsdata = localStorage.getItem("pdata");
+    paper.project.importJSON(jsdata);
+    console.log("json collected from cookie");
+  }
+}
+
+
+
+
 function saveJson(who,myIds,jsond)
 {
+
   var http = new XMLHttpRequest();
   var url;
   var params;
@@ -560,6 +671,9 @@ function saveJson(who,myIds,jsond)
   }
   http.send(params);
 }
+
+
+
 
 function emitPatterns(name,data) {
 

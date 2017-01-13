@@ -19,6 +19,11 @@ var sessionName;
 var myId = Math.floor((Math.random() * 200) + 100);
 console.log(myId);
 
+document.getElementById("sOline").onclick = function()
+{
+  alert("You always view you drawing here: 127.0.0.1:8081/viewpoint?id="+myId);
+}
+
 /*var joiningSession = prompt("Session Id?");
 console.log(joiningSession);
 var teacherFindID = joiningSession;

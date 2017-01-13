@@ -23,6 +23,13 @@
 
       <button id="dText" class="dropbtn">Text</button>
 
+      <div class="dropdown">
+        <button class="dropbtn">Save</button>
+        <div class="dropdown-content">
+          <a id="sOline">Save Online</a>
+          <a  id="sCom">Save to computer</a>
+        </div>
+      </div>
 
       <input type="color" value="#005E7A" id="drawing-color" class="cot-btn">
 
@@ -32,6 +39,7 @@
           <a href="#">Link 3</a>
         </div>
       </div>
+      <input type="color" value="#005E7A" id="drawing-background-color" class="cot-btn">
     </div>
     <br/>
     <br/>
@@ -40,26 +48,14 @@
         <div class="alert alert-danger"><%= message %></div>
     <% } %>
 
-    <!-- LOGIN FORM -->
-    <form action="/students" method="post">
-        <div class="form-group">
-            <label>Email</label>
-            <input type="text" class="form-control" name="idss">
-        </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="text" class="form-control" name="jsondata">
-        </div>
 
-        <button type="submit" class="btn btn-warning btn-lg">Signup</button>
-    </form>
 
 
     <% var jsonC = jsdata %>
     <script>
     var getjsonC;
     //console.log(<%-jsonC%>);
-    if(<%-jsonC%>)
+    if(<%-jsonC == ""%>)
     {
       getjsonC ="";
     }

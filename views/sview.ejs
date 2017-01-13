@@ -35,7 +35,13 @@ sec_session_start();
 
       <button id="dText" class="dropbtn">Text</button>
 
-
+      <div class="dropdown">
+        <button class="dropbtn">Save</button>
+        <div class="dropdown-content">
+          <a id="sOline">Save Online</a>
+          <a  id="sCom">Save to computer</a>
+        </div>
+      </div>
       <input type="color" value="#005E7A" id="drawing-color" class="cot-btn">
 
       <div class="dropdown">
@@ -44,9 +50,12 @@ sec_session_start();
           <a href="#">Link 3</a>
         </div>
       </div>
+      <input type="color" value="#005E7A" id="drawing-background-color" class="cot-btn">
+
+
     </div>
 
-    
+
     <!--<strong>password</strong>: <%= jsdata %>-->
     <% var jsndata = jsdata %>
     <script>

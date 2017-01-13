@@ -22,6 +22,11 @@ else
 
 console.log(checkOn+" teacher id");
 
+document.getElementById("sOline").onclick = function()
+{
+  alert("You always view you drawing here: 127.0.0.1:8081/viewpoint?id="+last_segment);
+}
+
 
 /*
 var myTeacherId = last_segment;

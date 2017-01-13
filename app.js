@@ -203,6 +203,16 @@ io.sockets.on('connection', function (socket) {
 
   });
 
+  socket.on( 'changeBg', function( data, session ) {
+
+    console.log( "session " + session + " colour:");
+    console.log( data );
+
+    io.sockets.in(socket.room).emit( 'changeBg', data );
+
+
+  });
+
   /* socket.on('sendchat', function (data) {
   // we tell the client to execute 'updatechat' with 2 parameters
   io.sockets.in(socket.room).emit('updatechat', socket.username, data);

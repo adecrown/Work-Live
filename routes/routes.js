@@ -7,86 +7,109 @@ module.exports = function(app,passport) {
     res.render('index.ejs'); // load the index.ejs file
   });
 
-  app.get('/profile', isLoggedIn, function(req, res) {
+/*  app.get('/profile', isLoggedIn, function(req, res) {
     res.render('profile.ejs', {
       user : req.user // get the user out of session and pass to template
     });
   });
-
-
-/*
-  app.get('/students', function(req, res) {
-    res.render('students.ejs', { message: req.flash('kMessage') }); // load the index.ejs file
-  });
 */
 
+  /*
   app.get('/students', function(req, res) {
-    var User            = require('../routes/user');
-  
-    User.findOne({'teacher.username' : req.query.id}, function(err, doc) {
-               res.render('students.ejs', {
-                 jsdata    : doc.teacher.jsondata,
-                 message: req.flash('kMessage')
+  res.render('students.ejs', { message: req.flash('kMessage') }); // load the index.ejs file
+});
+*/
 
-               });
+app.get('/students', function(req, res) {
+  var User            = require('../routes/user');
 
-       });
+  User.findOne({'teacher.username' : req.query.id}, function(err, doc) {
+    res.render('students.ejs', {
+      jsdata    : doc.teacher.jsondata,
+      message: req.flash('kMessage')
+
+    });
 
   });
 
+});
 
 
 
 
-  app.post('/students', passport.authenticate('data-json', {
-    session: false,
-    successRedirect : '/profile', // redirect to the secure profile section
-    failureRedirect : '/students', // redirect back to the signup page if there is an error
-    failureFlash : true // allow flash messages
-  }));
+
+app.post('/students', passport.authenticate('data-json', {
+  session: false,
+  successRedirect : '/profile', // redirect to the secure profile section
+  failureRedirect : '/students', // redirect back to the signup page if there is an error
+  failureFlash : true // allow flash messages
+}));
 
 
-  app.get('/dash', isLoggedIn,function(req, res) {
-    res.render('dash.ejs', {
-      user : req.user // get the user out of session and pass to template
-    }); // load the index.ejs file
+app.get('/viewpoint', function(req, res) {
+  var User            = require('../routes/user');
+
+  User.findOne({'codeJson.idss' : req.query.id}, function(err, doc) {
+    res.render('viewpoint.ejs', {
+      jsdata    : doc.codeJson.jsondata,
+      message: req.flash('kviewpoint')
+
+    });
+
   });
 
-  app.post('/dash', passport.authenticate('teacher-data-json', {
-    session: false,
-    successRedirect : '/profile', // redirect to the secure profile section
-    failureRedirect : '/students', // redirect back to the signup page if there is an error
-    failureFlash : true // allow flash messages
-  }));
+});
 
-  //teachers
-  /*app.get('/sviewt', isLoggedIn,function(req, res) {
+app.post('/viewpoint', passport.authenticate('data-json', {
+  session: false,
+  successRedirect : '/profile', // redirect to the secure profile section
+  failureRedirect : '/viewpoint', // redirect back to the signup page if there is an error
+  failureFlash : true // allow flash messages
+}));
+
+
+
+app.get('/dash', isLoggedIn,function(req, res) {
+  res.render('dash.ejs', {
+    user : req.user // get the user out of session and pass to template
+  }); // load the index.ejs file
+});
+
+app.post('/dash', passport.authenticate('teacher-data-json', {
+  session: false,
+  successRedirect : '/profile', // redirect to the secure profile section
+  failureRedirect : '/students', // redirect back to the signup page if there is an error
+  failureFlash : true // allow flash messages
+}));
+
+//teachers
+/*app.get('/sviewt', isLoggedIn,function(req, res) {
+res.render('sviewt.ejs', {
+user : req.user // get the user out of session and pass to template
+}); // load the index.ejs file
+});*/
+
+
+app.get('/sviewt', isLoggedIn,function(req, res) {
+  var User            = require('../routes/user');
+  User.findOne({'codeJson.idss' : req.query.room}, function(err, doc) {
     res.render('sviewt.ejs', {
-      user : req.user // get the user out of session and pass to template
-    }); // load the index.ejs file
-  });*/
-
-
-  app.get('/sviewt', isLoggedIn,function(req, res) {
-    var User            = require('../routes/user');
-    User.findOne({'codeJson.idss' : req.query.room}, function(err, doc) {
-               res.render('sviewt.ejs', {
-                   jsdata    : doc.codeJson.jsondata,
-                   user : req.user
-               });
-
-       });
+      jsdata    : doc.codeJson.jsondata,
+      user : req.user
+    });
 
   });
 
+});
 
 
 
 
-  ///student
-  /*app.get('/sview', function(req, res) {
-  res.render('sview.ejs', {
-  user : req.user // get the user out of session and pass to template
+
+///student
+/*app.get('/sview', function(req, res) {
+res.render('sview.ejs', {
+user : req.user // get the user out of session and pass to template
 }); // load the index.ejs file); // load the index.ejs file
 });
 
@@ -94,11 +117,11 @@ module.exports = function(app,passport) {
 app.get('/sview', function(req, res) {
   var User            = require('../routes/user');
   User.findOne({'codeJson.idss' : req.query.id}, function(err, doc) {
-             res.render('sview.ejs', {
-                 jsdata    : doc.codeJson.jsondata
-             });
+    res.render('sview.ejs', {
+      jsdata    : doc.codeJson.jsondata
+    });
 
-     });
+  });
 });
 
 
@@ -114,7 +137,7 @@ app.get('/login', function(req, res) {
 
 
 app.post('/login', passport.authenticate('local-login', {
-  successRedirect : '/profile', // redirect to the secure profile section
+  successRedirect : '/dash', // redirect to the secure profile section
   failureRedirect : '/login', // redirect back to the signup page if there is an error
   failureFlash : true // allow flash messages
 }));
@@ -136,7 +159,7 @@ app.get('/logout', function(req, res) {
 
 // process the signup form
 app.post('/signup', passport.authenticate('local-signup', {
-  successRedirect : '/profile', // redirect to the secure profile section
+  successRedirect : '/dash', // redirect to the secure profile section
   failureRedirect : '/signup', // redirect back to the signup page if there is an error
   failureFlash : true // allow flash messages
 }));
