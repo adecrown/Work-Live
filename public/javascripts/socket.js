@@ -39,7 +39,12 @@ io.on('pong', function (data) {
 
 io.on('updatechat', function (username, data) {
 	//console.log("gunt");
-	console.log(username, data);
+	console.log(username,data);
+	if (typeof checkOn != 'undefined' || typeof joiningSession != 'undefined' )
+	{
+		alert(data);
+	}
+
 	//$('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
 });
 
@@ -49,5 +54,5 @@ io.on('notifyTeacher', function (username, data) {
 	//document.getElementById('board').innerHTML = "<a href='http://"+window.location.hostname+"/views/sview.php?room="+student.room+"'> "+student.name+" </a>";
 	var result = "<a href='http://"+window.location.hostname+":8081/sviewt?room="+student.room+"'> "+student.name+" </a>";
 	htmlAppend("board","div",result);
-	//<a href="http://www.w3schools.com">Visit W3Schools</a>
+
 });

@@ -30,10 +30,10 @@ require('./config/passport')(passport); // pass passport for configuration
 // Configure our application
 app.configure(function(){
   app.set('port', process.env.PORT || 8081);
-//  app.set('views', __dirname + '/views');
+  //  app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
   //app.engine('html', require('ejs').renderFile);
-//  app.engine('.php', require('ejs').renderFile);
+  //  app.engine('.php', require('ejs').renderFile);
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
@@ -111,7 +111,7 @@ io.sockets.on('connection', function (socket) {
     // send client to room 1
     socket.join(room);
     // echo to client they've connected
-    socket.emit('updatechat', 'SERVER', 'you have connected to room1');
+    socket.emit('updatechat', 'SERVER', 'you have connected to your room number for this session. Room '+room);
 
     if(sId != "")
     {
@@ -123,6 +123,7 @@ io.sockets.on('connection', function (socket) {
 
       socket.broadcast.to(sId).emit('notifyTeacher', 'SERVER', text);
     }
+
     // echo to room 1 that a person has connected to their room
     socket.broadcast.to(room).emit('updatechat', 'SERVER', username + ' has connected to this room');
     socket.emit('updaterooms', rooms, room);

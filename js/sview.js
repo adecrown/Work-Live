@@ -17,7 +17,7 @@ if(document.getElementById('md').value =="")
 else
 {
   checkOn=document.getElementById('md').value;
-  tName = "TEACHER191";
+  tName = "Teacher";
 }
 
 console.log(checkOn+" teacher id");
@@ -27,6 +27,10 @@ document.getElementById("sOline").onclick = function()
   alert("You always view you drawing here: 127.0.0.1:8081/viewpoint?id="+last_segment);
 }
 
+document.getElementById("sVt").onclick = function()
+{
+  alert("Your friends can join you on this seesion through this link: 127.0.0.1:8081/sview?id="+last_segment);
+}
 
 /*
 var myTeacherId = last_segment;

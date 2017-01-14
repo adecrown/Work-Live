@@ -24,6 +24,11 @@ document.getElementById("sOline").onclick = function()
   alert("You always view you drawing here: 127.0.0.1:8081/viewpoint?id="+myId);
 }
 
+document.getElementById("sVt").onclick = function()
+{
+  alert("Your friends can join you on this seesion through this link: 127.0.0.1:8081/sview?id="+myId);
+}
+
 /*var joiningSession = prompt("Session Id?");
 console.log(joiningSession);
 var teacherFindID = joiningSession;
