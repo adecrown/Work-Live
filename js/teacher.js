@@ -7,7 +7,6 @@ var myTeacherId = last_segment;
 var myId = Math.floor((Math.random() * 10) + 1);
 wsConnect(myId);
 */
-
 console.log(tId);
 var tId = document.getElementById('sendIt').value;
 var tId2 = document.getElementById('mDrawSession').value;

@@ -24,10 +24,6 @@ var userSchema = mongoose.Schema({
     idss     : String,
     jsondata     : String,
   },
-  savePicture            : {
-    idpic     : String,
-    jsondata     : String,
-  },
 });
 
 // methods ======================

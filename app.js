@@ -94,7 +94,7 @@ var usernames = {};
 
 // rooms which are currently available in chat
 var rooms = ['room1','room2','room3'];
-
+var sendUser;
 
 // A user connects to the server (opens a socket)
 io.sockets.on('connection', function (socket) {
@@ -108,6 +108,7 @@ io.sockets.on('connection', function (socket) {
     // add the client's username to the global list
     usernames[username] = username;
     rooms[room] = room;
+    sendUser = username;
     // send client to room 1
     socket.join(room);
     // echo to client they've connected
@@ -203,6 +204,27 @@ io.sockets.on('connection', function (socket) {
 
 
   });
+
+
+  socket.on( 'showName', function( data, session ) {
+
+    console.log( "session " + session + " name:");
+    console.log( data );
+
+    io.sockets.in(socket.room).emit( 'showName', data ,sendUser);
+
+
+  });
+  socket.on( 'removeName', function( data, session ) {
+
+    console.log( "session " + session + " name:");
+    console.log( data );
+
+    io.sockets.in(socket.room).emit( 'removeName', data ,sendUser);
+
+
+  });
+
 
   socket.on( 'changeBg', function( data, session ) {
 

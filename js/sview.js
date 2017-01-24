@@ -13,12 +13,25 @@ if(document.getElementById('md').value =="")
 {
   checkOn = myId;
   tName = prompt("What's your name?");
+
 }
 else
 {
   checkOn=document.getElementById('md').value;
   tName = "Teacher";
 }
+
+
+/////////////////////////////////////////////
+////////////////////////////////////////////
+//create cookie
+var d = new Date();
+d.setTime(d.getTime() + (1*24*60*60*1000));
+var expires = "expires="+ d.toUTCString();
+document.cookie = "usName" + "=" + tName + ";" + expires + ";path=/";
+
+///////////////////////////////////////////////
+//////////////////////////////////////////////
 
 console.log(checkOn+" teacher id");
 

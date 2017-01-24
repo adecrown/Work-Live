@@ -16,18 +16,54 @@ var sessionName;
 };*/
 
 
-var myId = Math.floor((Math.random() * 200) + 100);
+
+function makeid()
+{
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < 5; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+//var myId = Math.floor((Math.random() * 200) + 100);
+var myId = makeid();
 console.log(myId);
+
 
 document.getElementById("sOline").onclick = function()
 {
-  alert("You always view you drawing here: 127.0.0.1:8081/viewpoint?id="+myId);
+
+  div = document.createElement("div");
+  div.id ="alertb"
+  div.className= "alert info";
+  div.innerHTML = '<span class="closebtn">&times;</span>'+'<strong>Info!</strong> You can always view your drawing here: 127.0.0.1:8081/viewpoint?id='+myId;
+document.body.appendChild(div);
+closeAb();
+  //alert("You can always view your drawing here: 127.0.0.1:8081/viewpoint?id="+myId);
 }
 
 document.getElementById("sVt").onclick = function()
 {
   alert("Your friends can join you on this seesion through this link: 127.0.0.1:8081/sview?id="+myId);
 }
+
+function closeAb()
+{
+var close = document.getElementsByClassName("closebtn");
+var i;
+for (i = 0; i < close.length; i++) {
+    close[i].onclick = function(){
+        var div = this.parentElement;
+        div.style.opacity = "0";
+        setTimeout(function(){ div.style.display = "none"; }, 600);
+    }
+}
+}
+
+
+
 
 /*var joiningSession = prompt("Session Id?");
 console.log(joiningSession);

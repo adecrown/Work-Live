@@ -14,7 +14,7 @@ io.on('connect', function(){
 	//if(tId === undefined)
 	if (typeof tId != 'undefined')
 	{
-	//	io.emit('adduser',tId2,tId,""); //teachers (dash.ejs) user id as the session id
+		//	io.emit('adduser',tId2,tId,""); //teachers (dash.ejs) user id as the session id
 		io.emit('adduser',tId,tId2,""); //teachers (dash.ejs) username as the session id
 	}
 	else {
@@ -24,8 +24,17 @@ io.on('connect', function(){
 		}
 		else
 		{
+			var wName = prompt("What's your name?");
 
-			io.emit('adduser', prompt("What's your name?"),myId,joiningSession);// students (student.ejs)
+			io.emit('adduser', wName,myId,joiningSession);// students (student.ejs)
+
+
+			//create cookie
+			var d = new Date();
+			d.setTime(d.getTime() + (1*24*60*60*1000));
+			var expires = "expires="+ d.toUTCString();
+			document.cookie = "usName" + "=" + wName + ";" + expires + ";path=/";
+
 		}
 	}
 });
@@ -42,7 +51,13 @@ io.on('updatechat', function (username, data) {
 	console.log(username,data);
 	if (typeof checkOn != 'undefined' || typeof joiningSession != 'undefined' )
 	{
-		alert(data);
+
+		div = document.createElement("div");
+	  div.className= "alert info";
+	  div.innerHTML = '<span class="closebtn">&times;</span>'+'<strong>Info! </strong>'+data;
+	document.body.appendChild(div);
+	closeAb();
+	//	alert(data);
 	}
 
 	//$('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
@@ -56,3 +71,16 @@ io.on('notifyTeacher', function (username, data) {
 	htmlAppend("board","div",result);
 
 });
+
+function closeAb()
+{
+var close = document.getElementsByClassName("closebtn");
+var i;
+for (i = 0; i < close.length; i++) {
+    close[i].onclick = function(){
+        var div = this.parentElement;
+        div.style.opacity = "0";
+        setTimeout(function(){ div.style.display = "none"; }, 600);
+    }
+}
+}

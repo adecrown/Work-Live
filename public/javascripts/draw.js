@@ -122,7 +122,8 @@ function onMouseDrag(event) {
     //emitBrush(event,2)
   }
 
-
+  emitName(event.point.x,event.point.y)
+  // showName(event.point.x,event.point.y)
 };
 
 
@@ -166,6 +167,7 @@ function onMouseUp(event) {
     emitBrush(event,x,y,3)
   }
   saveCode();
+  emitRemovewName();
 }
 
 
@@ -297,6 +299,108 @@ io.on( 'drawLine', function( data ) {
   }
 
 })
+
+
+
+
+
+
+function showName(x,y,name)
+{
+
+  div = document.createElement("div");
+  div.style.position = "absolute";
+  //  div.style.left = "0px";
+  //div.style.top = "0px";
+  div.style.left = x + 'px'
+  div.style.top  = y + 'px'
+  div.style.width = "auto";
+  div.style.height = "auto";
+  div.style.background = "yellow";
+  div.style.color = "blue";
+  div.id= name;
+  div.innerHTML = name;
+
+  var myDiv = document.getElementById(name);
+  if (myDiv === null) {
+    document.body.appendChild(div);
+  }
+  else {
+    //console.log("xxxxxxxx")
+
+    document.getElementById(name).style.left = x + 'px';
+    document.getElementById(name).style.top  = (y+40) + 'px';
+  }
+
+  /*
+  div.id=getCookie("usName");
+  div.innerHTML = getCookie("usName");
+
+  var myDiv = document.getElementById(getCookie("usName"));
+  if (myDiv === null) {
+    document.body.appendChild(div);
+  }
+  else {
+    //console.log("xxxxxxxx")
+
+    document.getElementById(getCookie("usName")).style.left = x + 'px';
+    document.getElementById(getCookie("usName")).style.top  = (y+50) + 'px';
+  }
+   */
+}
+
+
+
+
+function emitName(x,y) {
+
+  // An object to describe the circle's draw data
+  var data;
+  data = {
+    x:x,
+    y:y
+  };
+
+  //console.log(data);
+  emitPatterns('showName',data);
+}
+
+
+io.on( 'showName', function( data,username) {
+
+  console.log( 'showName event recieved:', data );
+
+ console.log(username);
+  // Draw the line using the data sent
+  // from another user
+  showName(data.x,data.y,username);
+
+
+
+})
+
+
+function emitRemovewName()
+{
+  var data;
+  emitPatterns('removeName',data);
+}
+
+
+io.on( 'removeName', function( data ,username) {
+
+  console.log( 'showName event recieved:', data );
+
+  console.log(username);
+  // Draw the line using the data sent
+  // from another user
+  //showName(data.x,data.y,username);
+  var elm = document.getElementById( username);
+  elm.parentNode.removeChild( elm );
+})
+
+
+
 
 
 
