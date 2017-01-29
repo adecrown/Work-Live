@@ -25,9 +25,11 @@
       </div>
       <div class="controls">
         <div class="vb">
-          <button name="mDraw" id="sendIt" class="round red" value="<%= user._id %>">Draw
+          <a href="/overview">
+          <button name="mDraw" id="sendIt" class="round red" value="<%= user._id %>">View
             <span class="round"></span>
           </button>
+        </a>
         </div>
         <div class="vb">
           <button name="mDrawSession" id="mDrawSession" class="round green" value="<%= user.teacher.username %>">Begin

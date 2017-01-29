@@ -1,4 +1,5 @@
 paper.install(window);
+
 if(typeof joiningSession !== 'undefined')
 {
   saveCode();
@@ -32,142 +33,168 @@ function __(id)
   return doc;
 }
 
-
-
-__("dLine").onclick = function()
+function getU(which,slash,position)
 {
-
-  wTool = "line";
-  /*
-  var canvas = document.getElementById("draw");
-  var ctx = canvas.getContext("2d");
-  var data = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-  console.log(data);
-  console.log(JSON.stringify(data))*/
-  //  exportJSON();
-  //  console.log(paper.Project.toString());
-  //console.log(draw.activeLayer.exportJSON());
+  var full_url = which; // Get current url
+  var url_array = full_url.split(slash) // Split the string into an array with # as separator
+  var last_segment = url_array[url_array.length-position];  // Get the last part of the array (-1)
+  return last_segment;
 }
 
-__("dCircle").onclick = function()
-{
-  wTool = "circle";
-}
-__("dText").onclick = function()
-{
-  wTool = "text";
-}
-__("dMulti").onclick = function()
-{
-  wTool = "multiLine";
-}
+var getpage2 = getU(document.URL,"/",1);
+var pageName2 = getU(getpage,"?",2);
 
+console.log(pageName2);
+if(pageName2 != "live")
+{
+  __("dLine").onclick = function()
+  {
 
+    wTool = "line";
+    /*
+    var canvas = document.getElementById("draw");
+    var ctx = canvas.getContext("2d");
+    var data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+    console.log(data);
+    console.log(JSON.stringify(data))*/
+    //  exportJSON();
+    //  console.log(paper.Project.toString());
+    //console.log(draw.activeLayer.exportJSON());
+  }
+
+  __("dCircle").onclick = function()
+  {
+    wTool = "circle";
+  }
+  __("dText").onclick = function()
+  {
+    wTool = "text";
+  }
+  __("dMulti").onclick = function()
+  {
+    wTool = "multiLine";
+  }
+
+}
 
 
 
 
 var pathio;
-
+var drawnBy;
 // every time the user drags their mouse
 // this function will be executed
 function onMouseDrag(event) {
 
-  var maincolor = __("drawing-color").value;
-  // Take the click/touch position as the centre of our circle
-  var x = event.middlePoint.x;
-  var y = event.middlePoint.y;
-
-  if (wTool == "multiLine")
+  if(pageName2 != "live")
   {
-    var dx = event.downPoint.x;
-    var dy = event.downPoint.y;
-    var lx = event.lastPoint.x;
-    var ly = event.lastPoint.y;
-    drawMultiLine(lx,ly,dx,dy,maincolor);
-    emitMultiLine(lx,ly,dx,dy,maincolor);
+    var maincolor = __("drawing-color").value;
+    drawnBy = getCookie("usName")
+
+    // Take the click/touch position as the centre of our circle
+    var x = event.middlePoint.x;
+    var y = event.middlePoint.y;
+
+    if (wTool == "multiLine")
+    {
+      var dx = event.downPoint.x;
+      var dy = event.downPoint.y;
+      var lx = event.lastPoint.x;
+      var ly = event.lastPoint.y;
+      drawMultiLine(lx,ly,dx,dy,maincolor,drawnBy);
+      emitMultiLine(lx,ly,dx,dy,maincolor,drawnBy);
+    }
+    else if (wTool == "circle")
+    {
+
+
+      // The faster the movement, the bigger the circle
+      var radius = event.delta.length / 2;
+
+      // Generate our random color
+      var color = randomColor();
+      // Draw the circle
+      drawCircle( x, y, radius, color ,drawnBy);
+
+      // Pass the data for this circle
+      // to a special function for later
+      emitCircle( x, y, radius, color,drawnBy);
+    }
+    else if(wTool == "line")
+    {
+      drawLine2(event.point.x,event.point.y,drawnBy);
+      emitLine(event.point.x,event.point.y,"",2,drawnBy)
+    }
+    else if(wTool == "brush")
+    {
+
+      var step = event.delta / 2;
+      step.angle += 90;
+      //var top = event.middlePoint + step;
+      //var bottom = event.middlePoint - step;
+      console.log(event);
+      drawBrush2(event.middlePoint,step);
+    //  emitBrush(event);
+    }
+  /*  if(pageName2 != "live")
+    {
+      emitName(event.point.x,event.point.y)
+      // showName(event.point.x,event.point.y)
+    }*/
   }
-  else if (wTool == "circle")
-  {
-
-
-    // The faster the movement, the bigger the circle
-    var radius = event.delta.length / 2;
-
-    // Generate our random color
-    var color = randomColor();
-
-    // Draw the circle
-    drawCircle( x, y, radius, color );
-
-    // Pass the data for this circle
-    // to a special function for later
-    emitCircle( x, y, radius, color );
-  }
-  else if(wTool == "line")
-  {
-    drawLine2(event.point.x,event.point.y);
-    emitLine(event.point.x,event.point.y,"",2)
-  }
-  else if(wTool == "lin")
-  {
-
-    var step = event.delta / 2;
-    step.angle += 90;
-    //var top = event.middlePoint + step;
-    //var bottom = event.middlePoint - step;
-    console.log(event);
-    drawBrush2(event.middlePoint,step);
-    //emitBrush(event,2)
-  }
-
-  emitName(event.point.x,event.point.y)
-  // showName(event.point.x,event.point.y)
 };
 
 
 
 function onMouseDown(event) {
-  var maincolor = __("drawing-color").value;
-  if(wTool == "text")
+  if(pageName2 != "live")
   {
-    console.log(event);
-    var x = event.downPoint.x;
-    var y = event.downPoint.y;
+    var maincolor = __("drawing-color").value;
+    if(wTool == "text")
+    {
+      console.log(event);
+      var x = event.downPoint.x;
+      var y = event.downPoint.y;
 
-    var text = prompt("Your text");
+      var text = prompt("Your text");
 
-    drawText(x,y,text,maincolor);
-    emitText(x,y,text,maincolor);
+      drawText(x,y,text,maincolor,drawnBy);
+      emitText(x,y,text,maincolor,drawnBy);
+    }
+    else if(wTool == "line")
+    {
+      drawLine(event.point.x,event.point.y,maincolor);
+      emitLine(event.point.x,event.point.y,maincolor,1,drawnBy)
+    }
+    else if(wTool == "brush")
+    {
+      var x = event.point.x;
+      var y = event.point.y;
+      drawBrush(x,y);
+      emitBrush(event,x,y,1)
+    }
   }
-  else if(wTool == "line")
-  {
-    drawLine(event.point.x,event.point.y,maincolor);
-    emitLine(event.point.x,event.point.y,maincolor,1)
-  }
-  else if(wTool == "lin")
-  {
-    var x = event.point.x;
-    var y = event.point.y;
-    drawBrush(x,y);
-    emitBrush(event,x,y,1)
-  }
-
 }
 
 
 
 function onMouseUp(event) {
-  if(wTool == "lin")
+  if(pageName2 != "live")
   {
-    var x = event.point.x;
-    var y = event.point.y;
-    drawBrush3(x,y);
-    emitBrush(event,x,y,3)
+    if(wTool == "brush")
+    {
+
+      var x = event.point.x;
+      var y = event.point.y;
+      drawBrush3(x,y);
+
+      emitBrush(event,x,y,3)
+    }
+    saveCode();
+
+   emitRemovewName(drawnBy);
   }
-  saveCode();
-  emitRemovewName();
 }
 
 
@@ -181,12 +208,12 @@ function onMouseUp(event) {
 //////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
-function drawCircle( x, y, radius, color ) {
+function drawCircle( x, y, radius, color,name ) {
 
   // Render the circle with Paper.js
   var circle = new Path.Circle( new Point( x, y ), radius );
   circle.fillColor = new Color( color.red, color.green, color.blue, color.alpha );
-
+  showName(x,y,name)
   console.log(project.exportJSON())
   // Refresh the view, so we always get an update, even if the tab is not in focus
   view.draw();
@@ -195,14 +222,15 @@ function drawCircle( x, y, radius, color ) {
 
 // This function sends the data for a circle to the server
 // so that the server can broadcast it to every other user
-function emitCircle( x, y, radius, color ) {
+function emitCircle( x, y, radius, color,name) {
 
   // An object to describe the circle's draw data
   var data = {
     x: x,
     y: y,
     radius: radius,
-    color: color
+    color: color,
+    name: name
   };
   emitPatterns('drawCircle',data);
 
@@ -217,7 +245,7 @@ io.on( 'drawCircle', function( data ) {
 
   // Draw the circle using the data sent
   // from another user
-  drawCircle( data.x, data.y, data.radius, data.color );
+  drawCircle( data.x, data.y, data.radius, data.color, data.name);
 
 })
 
@@ -249,7 +277,7 @@ function drawLine(x,y,color)
 
   // Add a segment to the path where
   // you clicked:
-
+//showName(x,y,name);
   pathio.add(x,y);
   console.log(event);
 
@@ -257,16 +285,17 @@ function drawLine(x,y,color)
 
 
 
-function drawLine2(x,y)
+function drawLine2(x,y,name)
 {
   // Every drag event, add a segment
   // to the path at the position of the mouse:
   pathio.add(x,y);
+  showName(x,y,name);
   view.draw();
 }
 
 
-function emitLine(x,y,color,which) {
+function emitLine(x,y,color,which,name) {
 
   // An object to describe the circle's draw data
   var data;
@@ -274,6 +303,7 @@ function emitLine(x,y,color,which) {
     x:x,
     y:y,
     c:color,
+    n:name,
     w:which
   };
 
@@ -295,7 +325,7 @@ io.on( 'drawLine', function( data ) {
   }
   else
   {
-    drawLine2(data.x,data.y);
+    drawLine2(data.x,data.y,data.n);
   }
 
 })
@@ -338,19 +368,19 @@ function showName(x,y,name)
 
   var myDiv = document.getElementById(getCookie("usName"));
   if (myDiv === null) {
-    document.body.appendChild(div);
-  }
-  else {
-    //console.log("xxxxxxxx")
+  document.body.appendChild(div);
+}
+else {
+//console.log("xxxxxxxx")
 
-    document.getElementById(getCookie("usName")).style.left = x + 'px';
-    document.getElementById(getCookie("usName")).style.top  = (y+50) + 'px';
-  }
-   */
+document.getElementById(getCookie("usName")).style.left = x + 'px';
+document.getElementById(getCookie("usName")).style.top  = (y+50) + 'px';
+}
+*/
 }
 
 
-
+/*
 
 function emitName(x,y) {
 
@@ -370,7 +400,7 @@ io.on( 'showName', function( data,username) {
 
   console.log( 'showName event recieved:', data );
 
- console.log(username);
+  console.log(username);
   // Draw the line using the data sent
   // from another user
   showName(data.x,data.y,username);
@@ -379,23 +409,26 @@ io.on( 'showName', function( data,username) {
 
 })
 
-
-function emitRemovewName()
+*/
+function emitRemovewName(name)
 {
   var data;
+  data = {
+    name:name
+  };
   emitPatterns('removeName',data);
 }
 
 
-io.on( 'removeName', function( data ,username) {
+io.on( 'removeName', function(data) {
 
   console.log( 'showName event recieved:', data );
 
-  console.log(username);
+  //console.log(username);
   // Draw the line using the data sent
   // from another user
   //showName(data.x,data.y,username);
-  var elm = document.getElementById( username);
+  var elm = document.getElementById(data.name);
   elm.parentNode.removeChild( elm );
 })
 
@@ -416,7 +449,7 @@ io.on( 'removeName', function( data ,username) {
 /////////////////////////////////////////////////////////////////
 
 
-function drawMultiLine(x,y,lx,ly,color)
+function drawMultiLine(x,y,lx,ly,color,name)
 {
   //var from = new Point(x, ly);
   //var to = new Point(lx, y);
@@ -424,10 +457,11 @@ function drawMultiLine(x,y,lx,ly,color)
   var to = new Point(x, y);
   var path = new Path.Line(from,to);
   path.strokeColor = color;
+  showName(x,y,name);
   view.draw();
 }
 
-function emitMultiLine(x,y,lx,ly,color) {
+function emitMultiLine(x,y,lx,ly,color,name) {
 
   // An object to describe the circle's draw data
   var data = {
@@ -435,6 +469,7 @@ function emitMultiLine(x,y,lx,ly,color) {
     y: y,
     lx: lx,
     ly: ly,
+    n: name,
     color: color
   };
 
@@ -447,7 +482,7 @@ io.on( 'drawMultiLine', function( data ) {
 
   // Draw the circle using the data sent
   // from another user
-  drawMultiLine( data.x, data.y, data.lx, data.ly, data.color );
+  drawMultiLine( data.x, data.y, data.lx, data.ly, data.color, data.n);
 
 })
 
@@ -471,16 +506,17 @@ io.on( 'drawMultiLine', function( data ) {
 /////////////////////////////////////////////////////////////////
 
 
-function drawText(x,y,word,color)
+function drawText(x,y,word,color,name)
 {
   var text = new PointText(new Point(x, y));
   text.justification = 'center';
   text.fillColor = color;
   text.content = word;
+  showName(x,y,name);
   view.draw();
 }
 
-function emitText(x,y,word,color) {
+function emitText(x,y,word,color,name) {
 
   // Each Socket.IO connection has a unique session id
   var sessionId = io.socket.sessionid;
@@ -490,6 +526,7 @@ function emitText(x,y,word,color) {
     x: x,
     y: y,
     word: word,
+    name: name,
     color: color
   };
 
@@ -507,7 +544,7 @@ io.on( 'drawText', function( data ) {
 
   // Draw the circle using the data sent
   // from another user
-  drawText( data.x, data.y, data.word, data.color );
+  drawText( data.x, data.y, data.word, data.color, data.name);
 
 })
 
@@ -561,15 +598,15 @@ function drawBrush3(x,y)
 
 
 
-function emitBrush(event,x,y,which) {
+function emitBrush(point,x,y,which,step) {
 
   // An object to describe the circle's draw data
   var data;
   data = {
     w:which,
     xs:x,
-    ys:y
-    //f:event
+    ys:y,
+    //f:point
   };
 
   //console.log(data);
@@ -590,7 +627,7 @@ io.on( 'drawBrush', function( data ) {
   }
   else if(data.w == 2)
   {
-    drawBrush2(event);
+    drawBrush2(point);
   }
   else {
     drawBrush3(data.xs,data.ys);
@@ -632,11 +669,13 @@ io.on( 'changeBg', function( data ) {
   changeBg(data.val);
 })
 
-drawingColorBackEl.onchange = function(){
-  changeBg(drawingColorBackEl.value);
-  emitchangeBg(drawingColorBackEl.value);
+if(pageName != "live")
+{
+  drawingColorBackEl.onchange = function(){
+    changeBg(drawingColorBackEl.value);
+    emitchangeBg(drawingColorBackEl.value);
+  }
 }
-
 
 
 
@@ -739,6 +778,9 @@ function loadFromCookie()
     var jsdata = localStorage.getItem("pdata");
     paper.project.importJSON(jsdata);
     console.log("json collected from cookie");
+  }
+  else {
+    saveJson("teacher",getTUsername,paper.project.exportJSON());
   }
 }
 

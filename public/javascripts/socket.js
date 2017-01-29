@@ -6,6 +6,8 @@ io = io.connect('/');
 console.log( "socket: browser says ping (1)" )
 io.emit('ping', { some: 'data' } );
 
+var getpage = getUr(document.URL,"/",1);
+var pageName = getUr(getpage,"?",2);
 
 io.on('connect', function(){
 	// call the server-side function 'adduser' and send one parameter (value of prompt)
@@ -24,11 +26,19 @@ io.on('connect', function(){
 		}
 		else
 		{
-			var wName = prompt("What's your name?");
+			var wName;
+			if(pageName != "live")
+			{
+				wName = prompt("What's your name?");
 
-			io.emit('adduser', wName,myId,joiningSession);// students (student.ejs)
 
 
+				if(typeof joiningSession != 'undefined')
+				{
+					io.emit('adduser', wName,myId,joiningSession);// students (student.ejs)
+
+				}
+			}
 			//create cookie
 			var d = new Date();
 			d.setTime(d.getTime() + (1*24*60*60*1000));
@@ -51,13 +61,16 @@ io.on('updatechat', function (username, data) {
 	console.log(username,data);
 	if (typeof checkOn != 'undefined' || typeof joiningSession != 'undefined' )
 	{
-
-		div = document.createElement("div");
-	  div.className= "alert info";
-	  div.innerHTML = '<span class="closebtn">&times;</span>'+'<strong>Info! </strong>'+data;
-	document.body.appendChild(div);
-	closeAb();
-	//	alert(data);
+		var words = data.split(' ');
+		if(pageName != "live" && words[0] != "null")
+		{
+			div = document.createElement("div");
+			div.className= "alert info";
+			div.innerHTML = '<span class="closebtn">&times;</span>'+'<strong>Info! </strong>'+data;
+			document.body.appendChild(div);
+			closeAb();
+		}
+		//	alert(data);
 	}
 
 	//$('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
@@ -74,13 +87,21 @@ io.on('notifyTeacher', function (username, data) {
 
 function closeAb()
 {
-var close = document.getElementsByClassName("closebtn");
-var i;
-for (i = 0; i < close.length; i++) {
-    close[i].onclick = function(){
-        var div = this.parentElement;
-        div.style.opacity = "0";
-        setTimeout(function(){ div.style.display = "none"; }, 600);
-    }
+	var close = document.getElementsByClassName("closebtn");
+	var i;
+	for (i = 0; i < close.length; i++) {
+		close[i].onclick = function(){
+			var div = this.parentElement;
+			div.style.opacity = "0";
+			setTimeout(function(){ div.style.display = "none"; }, 600);
+		}
+	}
 }
+
+function getUr(which,slash,position)
+{
+	var full_url = which; // Get current url
+	var url_array = full_url.split(slash) // Split the string into an array with # as separator
+	var last_segment = url_array[url_array.length-position];  // Get the last part of the array (-1)
+	return last_segment;
 }

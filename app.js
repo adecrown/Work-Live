@@ -205,7 +205,7 @@ io.sockets.on('connection', function (socket) {
 
   });
 
-
+/*
   socket.on( 'showName', function( data, session ) {
 
     console.log( "session " + session + " name:");
@@ -215,6 +215,7 @@ io.sockets.on('connection', function (socket) {
 
 
   });
+  */
   socket.on( 'removeName', function( data, session ) {
 
     console.log( "session " + session + " name:");
