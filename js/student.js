@@ -69,13 +69,31 @@ function closeAb()
 }
 
 
-
-
 /*var joiningSession = prompt("Session Id?");
 console.log(joiningSession);
 var teacherFindID = joiningSession;
 */
-var joiningSession =last_segment;
+var joiningSession = prompt("Session id");
+function loadJSON()
+{
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function()
+  {
+    if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200)
+    {
+
+      console.log(xhr.responseText);
+      paper.project.importJSON(xhr.responseText);
+
+    }
+  }
+
+
+  xhr.open("GET", "/studg?id="+joiningSession, false);
+  xhr.send();
+};
+
+//var joiningSession =last_segment;
 console.log(joiningSession);
 /*
 var myTeacherId = last_segment;

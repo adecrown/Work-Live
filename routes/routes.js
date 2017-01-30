@@ -20,17 +20,16 @@ res.render('students.ejs', { message: req.flash('kMessage') }); // load the inde
 });
 */
 
-app.get('/students', function(req, res) {
+app.get('/studg', function(req, res) {
   var User            = require('../routes/user');
 
   User.findOne({'teacher.username' : req.query.id}, function(err, doc) {
-    if(doc != null)
+    //console.log("bnm ");
+    if(doc)
     {
-      res.render('students.ejs', {
-        jsdata    : doc.teacher.jsondata,
-        message: req.flash('kMessage')
+      //console.log(doc.teacher.jsondata);
 
-      });
+      res.send(doc.teacher.jsondata);
     }
     else {
       res.render('index.ejs'); // load the index.ejs file
@@ -40,7 +39,30 @@ app.get('/students', function(req, res) {
 
 });
 
+app.get('/students', function(req, res) {
+  res.render('students.ejs');
+});
 
+/*
+app.get('/students', function(req, res, username) {
+var User            = require('../routes/user');
+
+User.findOne({'teacher.username' : username}, function(err, doc) {
+if(doc != null)
+{
+res.render('students.ejs', {
+jsdata    : doc.teacher.jsondata,
+message: req.flash('kMessage')
+
+});
+}
+else {
+res.render('index.ejs'); // load the index.ejs file
+
+}
+});
+
+});*/
 
 
 
@@ -146,22 +168,21 @@ user : req.user // get the user out of session and pass to template
 });
 
 */
-app.get('/sview', function(req, res) {
+
+app.get('/sviewStudent', function(req, res) {
   var User            = require('../routes/user');
   User.findOne({'codeJson.idss' : req.query.id}, function(err, doc) {
     if(doc != null)
     {
-      res.render('sview.ejs', {
-
-        jsdata    : doc.codeJson.jsondata
-
-      });
-    }
-    else {
-      res.render('index.ejs'); // load the index.ejs file
-
+      res.send(doc.codeJson.jsondata)
     }
   });
+});
+
+
+app.get('/sview', function(req, res) {
+
+      res.render('sview.ejs');
 });
 
 

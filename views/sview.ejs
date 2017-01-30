@@ -57,14 +57,7 @@ sec_session_start();
     </div>
 
 
-    <!--<strong>password</strong>: <%= jsdata %>-->
-    <% var jsndata = jsdata %>
-    <script>
-    var getTest = <%- JSON.stringify(jsndata) %>;
-    //var getTest = <%= jsndata  %>;  //var test is now assigned to getTest which will only work on browsers
-    //console.log(getTest);  // successfully prints 101 on browser
-    //  paper.project.importJSON(getTest);
-    </script>
+    
 
     <canvas id="draw"  keepalive="true" resize="true"></canvas>
     <script>

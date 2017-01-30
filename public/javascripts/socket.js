@@ -35,8 +35,8 @@ io.on('connect', function(){
 
 				if(typeof joiningSession != 'undefined')
 				{
-					io.emit('adduser', wName,myId,joiningSession);// students (student.ejs)
 
+					io.emit('adduser', wName,myId,joiningSession);// students (student.ejs)
 				}
 			}
 			//create cookie

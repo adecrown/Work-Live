@@ -12,7 +12,16 @@ function getUr(which,slash,position)
 }
 
 var myId = Math.floor((Math.random() * 200) + 100);
-var tsessionId = getUr(document.URL,"=",1);
+var tsessionId;
+var switchSessionID = getUr(document.URL,"/",1);
+console.log(switchSessionID);
+if(switchSessionID == "sview")
+{
+  tsessionId = prompt("Session id");
+}
+else {
+  tsessionId = getUr(document.URL,"=",1);
+}
 var checkOn;
 var tName;
 var getpage1 = getUr(document.URL,"/",1);
@@ -65,6 +74,24 @@ if(pageName1 != "live")
   }
 }
 
+function loadJSON()
+{
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function()
+  {
+    if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200)
+    {
+
+      console.log(xhr.responseText);
+      paper.project.importJSON(xhr.responseText);
+
+    }
+  }
+
+//var cv = prompt("id");
+  xhr.open("GET", "/sviewStudent?id="+tsessionId, false);
+  xhr.send();
+};
 
 /*
 var myTeacherId = last_segment;

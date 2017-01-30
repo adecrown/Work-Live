@@ -205,13 +205,15 @@ module.exports = function(passport) {
             }
           });
           //return done(null, false, req.flash('kMessage', 'That username is already taken.'));
-        } 
+        }
 
     });
 
   });
 
 }));
+
+
 
 
 

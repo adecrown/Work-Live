@@ -135,14 +135,14 @@ function onMouseDrag(event) {
       //var bottom = event.middlePoint - step;
       console.log(event);
       drawBrush2(event.middlePoint,step);
-    //  emitBrush(event);
+      //  emitBrush(event);
     }
-  /*  if(pageName2 != "live")
+    /*  if(pageName2 != "live")
     {
-      emitName(event.point.x,event.point.y)
-      // showName(event.point.x,event.point.y)
-    }*/
-  }
+    emitName(event.point.x,event.point.y)
+    // showName(event.point.x,event.point.y)
+  }*/
+}
 };
 
 
@@ -193,7 +193,7 @@ function onMouseUp(event) {
     }
     saveCode();
 
-   emitRemovewName(drawnBy);
+    emitRemovewName(drawnBy);
   }
 }
 
@@ -277,7 +277,7 @@ function drawLine(x,y,color)
 
   // Add a segment to the path where
   // you clicked:
-//showName(x,y,name);
+  //showName(x,y,name);
   pathio.add(x,y);
   console.log(event);
 
@@ -384,26 +384,26 @@ document.getElementById(getCookie("usName")).style.top  = (y+50) + 'px';
 
 function emitName(x,y) {
 
-  // An object to describe the circle's draw data
-  var data;
-  data = {
-    x:x,
-    y:y
-  };
+// An object to describe the circle's draw data
+var data;
+data = {
+x:x,
+y:y
+};
 
-  //console.log(data);
-  emitPatterns('showName',data);
+//console.log(data);
+emitPatterns('showName',data);
 }
 
 
 io.on( 'showName', function( data,username) {
 
-  console.log( 'showName event recieved:', data );
+console.log( 'showName event recieved:', data );
 
-  console.log(username);
-  // Draw the line using the data sent
-  // from another user
-  showName(data.x,data.y,username);
+console.log(username);
+// Draw the line using the data sent
+// from another user
+showName(data.x,data.y,username);
 
 
 
@@ -748,7 +748,7 @@ function uploadCode()
 {
   if(typeof tsessionId !== 'undefined')
   {
-    paper.project.importJSON(getTest);
+    //paper.project.importJSON(getTest);
     console.log("json collected from database");
   }
 
@@ -816,6 +816,12 @@ function saveJson(who,myIds,jsond)
     }
   }
   http.send(params);
+}
+
+var pageWhich = getU(document.URL,"/",1);
+if(pageWhich != "dash")
+{
+  loadJSON();
 }
 
 
