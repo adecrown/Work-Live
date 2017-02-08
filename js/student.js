@@ -1,10 +1,16 @@
+if(getCookie("displayName") == "")
+{
+  window.location.href = '/set';
+}
+
 var full_url = document.URL; // Get current url
 var url_array = full_url.split('=') // Split the string into an array with # as separator
 var last_segment = url_array[url_array.length-1];  // Get the last part of the array (-1)
 console.log(last_segment);
-var myId = Math.floor((Math.random() * 200) + 100);
+//var myId = Math.floor((Math.random() * 200) + 100);
 var sessionId;
 var sessionName;
+
 
 /*document.getElementById('joinSession').onclick = function()
 {
@@ -49,7 +55,7 @@ document.getElementById("sVt").onclick = function()
 div = document.createElement("div");
 div.id ="alertc"
 div.className= "alert info";
-div.innerHTML = '<span class="closebtn">&times;</span>'+'<strong>Info!</strong> Your friends can join you on this seesion through this link: 127.0.0.1:8081/sview?id='+myId;
+div.innerHTML = '<span class="closebtn">&times;</span>'+'<strong>Info!</strong> Your friends can join you on this seesion through this link: 127.0.0.1:8081/set and the id is '+myId;
 document.body.appendChild(div);
 closeAb();
   //alert("Your friends can join you on this seesion through this link: 127.0.0.1:8081/sview?id="+myId);
@@ -73,7 +79,8 @@ function closeAb()
 console.log(joiningSession);
 var teacherFindID = joiningSession;
 */
-var joiningSession = prompt("Session id");
+//var joiningSession = prompt("Session id");
+var joiningSession = getCookie("joinRoom");
 function loadJSON()
 {
   var xhr = new XMLHttpRequest();
@@ -95,6 +102,44 @@ function loadJSON()
 
 //var joiningSession =last_segment;
 console.log(joiningSession);
+
+
+function getCookie(cname)
+{
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0)==' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length,c.length);
+    }
+  }
+  return "";
+}
+
+
+div = document.createElement("div");
+div.className= "chngName";
+div.innerHTML = '<p id="chngName">Change name: '+getCookie("displayName")+' or Sessoin: '+getCookie("joinRoom")+'</p>';
+document.body.appendChild(div);
+
+document.getElementById('chngName').onclick = function()
+{
+  createCookie("displayName","", 2);
+  createCookie("joinRoom","", 2);
+  window.location.href = '/set';
+}
+
+function createCookie(name, data, exp)
+{
+  var d = new Date();
+  d.setTime(d.getTime() + (exp*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = name + "=" + data + ";" + expires + ";path=/";
+}
 /*
 var myTeacherId = last_segment;
 var myId = Math.floor((Math.random() * 200) + 100);

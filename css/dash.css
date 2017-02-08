@@ -25,14 +25,14 @@
 {
   width: 900px;
   height: 100px;
-  background-color: grey;
+  background-color: #eea236;
   float: left;
   text-align: center;
 }
 .dashboard
 {
 width: 100px;
-height: 700px;
+height: 612px;
 
 background-color: orange;
 position: relative;
@@ -45,7 +45,7 @@ width: 900px;
 height:100%;
 position: relative;
 float: left;
-background-color: green;
+background-color: #F0EAD6;
 }
 
 * {
@@ -136,3 +136,21 @@ background-color: green;
 		background: rgba(161,145,0,.7);
 
 	}
+
+  .namebox {
+    background-color: #e6dede;
+    height: 30px;
+    border-bottom: black;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    font-size: initial;
+    text-align: center;
+        padding-top: 5px;
+}
+
+
+#board a{
+  text-decoration: none;
+  color: black;
+  text-transform: capitalize;
+}

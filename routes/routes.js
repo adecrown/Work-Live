@@ -138,9 +138,10 @@ app.post('/overview', passport.authenticate('teacher-data-json', {
 }));
 
 
-app.get('/sviewt', isLoggedIn,function(req, res) {
+app.get('/sviewt',function(req, res) {
   var User            = require('../routes/user');
   User.findOne({'codeJson.idss' : req.query.room}, function(err, doc) {
+    console.log(doc);
     if(doc != null)
     {
       res.render('sviewt.ejs', {
@@ -149,14 +150,12 @@ app.get('/sviewt', isLoggedIn,function(req, res) {
       });
     }
     else {
-      res.render('index.ejs'); // load the index.ejs file
+      res.render('ilop.ejs'); // load the index.ejs file
 
     }
   });
 
 });
-
-
 
 
 
@@ -200,6 +199,12 @@ app.get('/live', function(req, res) {
 
     }
   });
+});
+
+app.get('/set', function(req, res) {
+
+  // render the page and pass in any flash data if it exists
+  res.render('set.ejs');
 });
 
 app.get('/login', function(req, res) {

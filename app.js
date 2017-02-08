@@ -1,8 +1,6 @@
 
 // Express requires these dependencies
 var express = require('express')
-//, routes = require('./routes')
-//, user = require('./routes/user')
 , http = require('http')
 , path = require('path')
 , flash    = require('connect-flash')
@@ -45,7 +43,8 @@ app.configure(function(){
   app.use(express.static(path.join(__dirname, 'js')));
   app.use(express.static(path.join(__dirname, 'css')));
   // required for passport
-  app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+  // ilovescotchscotchyscotchscotch
+  app.use(session({ secret: 'worklive' })); // session secret
   app.use(passport.initialize());
   app.use(passport.session()); // persistent login sessions
   app.use(flash()); // use connect-flash for flash messages stored in session
@@ -93,7 +92,7 @@ var io = require('socket.io').listen( server );
 var usernames = {};
 
 // rooms which are currently available in chat
-var rooms = ['room1','room2','room3'];
+var rooms = ['room1','room2'];
 var sendUser;
 
 // A user connects to the server (opens a socket)
@@ -109,7 +108,7 @@ io.sockets.on('connection', function (socket) {
     usernames[username] = username;
     rooms[room] = room;
     sendUser = username;
-    // send client to room 1
+    // send client to the room
     socket.join(room);
     // echo to client they've connected
     socket.emit('updatechat', 'SERVER', 'you have connected to your room number for this session. Room '+room);
@@ -125,7 +124,7 @@ io.sockets.on('connection', function (socket) {
       socket.broadcast.to(sId).emit('notifyTeacher', 'SERVER', text);
     }
 
-    // echo to room 1 that a person has connected to their room
+    // echo to the given room that a person has connected to their room
     socket.broadcast.to(room).emit('updatechat', 'SERVER', username + ' has connected to this room');
     socket.emit('updaterooms', rooms, room);
   });
