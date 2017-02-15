@@ -115,6 +115,7 @@ io.sockets.on('connection', function (socket) {
 
     if(sId != "")
     {
+      socket.sid = sId;
       socket.broadcast.to(sId).emit('updatechat', 'SERVER', username + room + ' has connected to this room');
       var text =  {
         "name": "" + username + "",
@@ -177,9 +178,7 @@ io.sockets.on('connection', function (socket) {
     console.log( "session " + session + " drew:");
     console.log( data );
 
-    //socket.in.emit( 'drawCircle', data );
     io.sockets.in(socket.room).emit( 'drawLine', data );
-    //socket.broadcast.emit( 'drawCircle', data );
 
   });
 
@@ -204,41 +203,59 @@ io.sockets.on('connection', function (socket) {
 
   });
 
-/*
+  /*
   socket.on( 'showName', function( data, session ) {
 
-    console.log( "session " + session + " name:");
-    console.log( data );
+  console.log( "session " + session + " name:");
+  console.log( data );
 
-    io.sockets.in(socket.room).emit( 'showName', data ,sendUser);
-
-
-  });
-  */
-  socket.on( 'removeName', function( data, session ) {
-
-    console.log( "session " + session + " name:");
-    console.log( data );
-
-    io.sockets.in(socket.room).emit( 'removeName', data ,sendUser);
+  io.sockets.in(socket.room).emit( 'showName', data ,sendUser);
 
 
-  });
+});
+*/
+socket.on( 'removeName', function( data, session ) {
+
+  console.log( "session " + session + " name:");
+  console.log( data );
+
+  io.sockets.in(socket.room).emit( 'removeName', data ,sendUser);
 
 
-  socket.on( 'changeBg', function( data, session ) {
-
-    console.log( "session " + session + " colour:");
-    console.log( data );
-
-    io.sockets.in(socket.room).emit( 'changeBg', data );
+});
 
 
-  });
+socket.on( 'changeBg', function( data, session ) {
 
-  /* socket.on('sendchat', function (data) {
-  // we tell the client to execute 'updatechat' with 2 parameters
-  io.sockets.in(socket.room).emit('updatechat', socket.username, data);
+  console.log( "session " + session + " colour:");
+  console.log( data );
+
+  io.sockets.in(socket.room).emit( 'changeBg', data );
+
+
+});
+
+
+socket.on('disconnect', function () {
+  console.log(socket.room);
+  console.log(socket.username);
+  console.log(socket.sid);
+
+  if (socket.sid !="") {
+    var text =  {
+      "room": "" + socket.room + ""
+    };
+    socket.broadcast.to(socket.sid).emit('removenotifyTeacher', 'SERVER', text);
+  }
+
+  socket.broadcast.to(socket.room).emit('updatechat', 'SERVER', socket.username + ' has left room');
+  socket.emit('updaterooms', rooms, socket.room);
+});
+
+
+/* socket.on('sendchat', function (data) {
+// we tell the client to execute 'updatechat' with 2 parameters
+io.sockets.in(socket.room).emit('updatechat', socket.username, data);
 });*/
 
 });

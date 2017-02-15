@@ -279,8 +279,8 @@ function drawLine(x,y,color)
   // you clicked:
   //showName(x,y,name);
   pathio.add(x,y);
-  console.log(event);
-
+  //  console.log(event);
+  console.log(x,y,color);
 }
 
 
@@ -292,12 +292,13 @@ function drawLine2(x,y,name)
   pathio.add(x,y);
   showName(x,y,name);
   view.draw();
+  console.log(x,y);
 }
 
 
 function emitLine(x,y,color,which,name) {
 
-  // An object to describe the circle's draw data
+  // An object to describe the line draw data
   var data;
   data = {
     x:x,
@@ -310,6 +311,7 @@ function emitLine(x,y,color,which,name) {
   //console.log(data);
   emitPatterns('drawLine',data);
 }
+
 
 
 io.on( 'drawLine', function( data ) {
@@ -833,7 +835,7 @@ function emitPatterns(name,data) {
   var sessionId = io.socket.sessionid;
 
 
-  // send a 'drawCircle' event with data and sessionId to the server
+  // send a 'drawLine' event with data and sessionId to the server
   io.emit( name, data, sessionId )
 
   // Lets have a look at the data we're sending

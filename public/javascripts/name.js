@@ -16,9 +16,9 @@ __("subName").addEventListener("click", function(){
   displayName = __("sName").value;
   if(displayName !="")
   {
-    createCookie("displayName",displayName, 2);
+    createCookie("displayName",displayName, 1);
     joinRoom = __("tSession").value;
-    createCookie("joinRoom",joinRoom, 2);
+    createCookie("joinRoom",joinRoom, 1);
 
     refer();
   }

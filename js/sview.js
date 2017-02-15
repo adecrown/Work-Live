@@ -146,8 +146,8 @@ if(pageName1 != "live")
 
   document.getElementById('chngName').onclick = function()
   {
-    createCookie("displayName","", 2);
-    createCookie("joinRoom","", 2);
+    createCookie("displayName","", 1);
+    createCookie("joinRoom","", 1);
     window.location.href = '/set';
   }
 }
