@@ -146,3 +146,66 @@ var myId = Math.floor((Math.random() * 200) + 100);
 console.log(myId);
 wsConnect(myId,myTeacherId,myId,"hummm");
 */
+
+
+/*
+function solution(N) {
+    // write your code in JavaScript (Node.js 6.4.0)
+    var count = 0;
+    for (i = 0; i < N; i++) {
+    var num = i+1;
+    var digits = num.toString().split('');
+    //console.log(digits)
+    for (b = 0; b < digits.length; b++) {
+      //console.log(digits[b]);
+    if(digits[b] == "1")
+    {
+   count = count + 1;
+ }
+  }
+}
+console.log(count);
+}
+
+
+function solution(S) {
+    // write your code in JavaScript (Node.js 6.4.0)]
+    var pass = S.split('');
+    var word ="";
+    for (b = 0; b < pass.length; b++) {
+      var num = isNaN(pass[b]);
+      if (num)
+      {
+
+        for (c = b+2; c < pass.length; c++) {
+          //  console.log(b);
+          console.log(pass[c]);
+          word = word.concat(pass[c]);
+      }
+      break;
+    }
+
+}
+var val =umpper(word);
+if (val != "")
+{
+  return word;
+}
+else {
+  return -1
+}
+
+}
+
+
+function umpper(text)
+{
+  var positions = [];
+for(var i=0; i<text.length; i++){
+    if(text[i].match(/[A-Z]/) != null){
+        positions.push(i);
+    }
+}
+return positions ;
+}
+*/

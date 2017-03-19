@@ -182,6 +182,27 @@ io.sockets.on('connection', function (socket) {
 
   });
 
+
+  socket.on( 'imageHold', function( data, session ) {
+
+    console.log( "session " + session + " uploaded:");
+    console.log( data );
+
+    io.sockets.in(socket.room).emit( 'imageHold', data );
+
+  });
+
+
+
+  socket.on( 'clearCan', function( data, session ) {
+
+    console.log( "session " + session + " cleared");
+    console.log( data );
+
+    io.sockets.in(socket.room).emit( 'clearCan', data );
+
+  });
+
   socket.on( 'drawBrush', function( data, session ) {
 
     console.log( "session " + session + " drew:");

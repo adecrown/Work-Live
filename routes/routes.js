@@ -178,11 +178,11 @@ app.get('/sviewStudent', function(req, res) {
   });
 });
 
-
 app.get('/sview', function(req, res) {
 
       res.render('sview.ejs');
 });
+
 
 
 app.get('/live', function(req, res) {

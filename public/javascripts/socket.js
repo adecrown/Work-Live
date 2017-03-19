@@ -81,7 +81,7 @@ io.on('notifyTeacher', function (username, data) {
 	console.log(username, data);
 	var student = data;
 
-	var result = "<a target='_blank' id="+student.room+" href='http://"+window.location.hostname+":8081/sviewt?room="+student.room+"'> <div class='namebox'>"+student.name+"</div> </a>";
+	var result = "<a target='_blank' id="+student.room+" href='http://"+window.location.hostname+":8081/sviewt?room="+student.room+"'> <button type='button' class='namebox btn btn-success'>"+student.name+"</button> </a>";
 	htmlAppend("board","div",result);
 
 });

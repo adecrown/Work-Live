@@ -25,7 +25,7 @@ function randomColor() {
 
 }
 
-var wTool = "line";
+var wTool = "stLine";
 
 function __(id)
 {
@@ -75,7 +75,21 @@ if(pageName2 != "live")
   {
     wTool = "multiLine";
   }
-
+  __("dErase").onclick = function()
+  {
+    wTool = "eraser";
+  }
+  __("dClear").onclick = function()
+  {
+    clearCan();
+    emitClearCan();
+  }
+  __("dImage").onclick = function()
+  {
+    var url = prompt("Image url");
+    imageHold(url);
+    emitimageHold(url);
+  }
 }
 
 
@@ -83,6 +97,7 @@ if(pageName2 != "live")
 
 var pathio;
 var drawnBy;
+//var lWidth;
 // every time the user drags their mouse
 // this function will be executed
 function onMouseDrag(event) {
@@ -90,7 +105,7 @@ function onMouseDrag(event) {
   if(pageName2 != "live")
   {
     var maincolor = __("drawing-color").value;
-    drawnBy = getCookie("usName")
+    drawnBy = getCookie("usName");
 
     // Take the click/touch position as the centre of our circle
     var x = event.middlePoint.x;
@@ -124,7 +139,7 @@ function onMouseDrag(event) {
     else if(wTool == "line")
     {
       drawLine2(event.point.x,event.point.y,drawnBy);
-      emitLine(event.point.x,event.point.y,"",2,drawnBy)
+      emitLine(event.point.x,event.point.y,"",2,drawnBy,"")
     }
     else if(wTool == "brush")
     {
@@ -137,6 +152,12 @@ function onMouseDrag(event) {
       drawBrush2(event.middlePoint,step);
       //  emitBrush(event);
     }
+    else if(wTool=="eraser")
+    {
+      eraser(event.point.x,event.point.y);
+      //erase2(event.point.x,event.point.y,"","");
+    }
+
     /*  if(pageName2 != "live")
     {
     emitName(event.point.x,event.point.y)
@@ -151,6 +172,7 @@ function onMouseDown(event) {
   if(pageName2 != "live")
   {
     var maincolor = __("drawing-color").value;
+    var lWidth = __('numeberWidth').value;
     if(wTool == "text")
     {
       console.log(event);
@@ -164,8 +186,8 @@ function onMouseDown(event) {
     }
     else if(wTool == "line")
     {
-      drawLine(event.point.x,event.point.y,maincolor);
-      emitLine(event.point.x,event.point.y,maincolor,1,drawnBy)
+      drawLine(event.point.x,event.point.y,maincolor,lWidth);
+      emitLine(event.point.x,event.point.y,maincolor,1,drawnBy,lWidth)
     }
     else if(wTool == "brush")
     {
@@ -173,6 +195,11 @@ function onMouseDown(event) {
       var y = event.point.y;
       drawBrush(x,y);
       emitBrush(event,x,y,1)
+    }
+    else if(wTool=="eraser")
+    {
+      eraser(event.point.x,event.point.y);
+      //  erase(event.point.x,event.point.y);
     }
   }
 }
@@ -196,6 +223,82 @@ function onMouseUp(event) {
     emitRemovewName(drawnBy);
   }
 }
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+///////////////////                             /////////////////////
+//////////////////   CLEAR CANVAS SECTION       ////////////////////
+/////////////////                               ///////////////////
+//////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+function clearCan()
+{
+  paper.project.clear();
+
+}
+
+function emitClearCan() {
+
+  var data = {};
+  emitPatterns('clearCan',data);
+
+}
+
+io.on( 'clearCan', function( data ) {
+  console.log( 'clearCanvas event recieved:', data );
+  clearCan();
+})
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+///////////////////                             /////////////////////
+//////////////////   IMAGE SECTION          ////////////////////
+/////////////////                               ///////////////////
+//////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+
+function imageHold(url)
+{
+  //http://wallpaper-gallery.net/images/image/image-2.jpg
+  if(url)
+  {
+    var image = '<img id="upIm" class="visuallyhidden" src="'+url+'" width="320" height="491">';
+    __("imageHolder").innerHTML=image;
+    var raster = new Raster('upIm');
+    raster.position = view.center;
+  }
+
+}
+
+
+function emitimageHold(url) {
+
+  var data = {
+    im:url
+  };
+  emitPatterns('imageHold',data);
+
+}
+
+io.on( 'imageHold', function( data ) {
+  console.log( 'image event recieved:', data );
+  imageHold(data.im);
+})
+
 
 
 
@@ -254,6 +357,55 @@ io.on( 'drawCircle', function( data ) {
 
 
 
+///////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+///////////////////                             /////////////////////
+//////////////////   ERASER SECTION             ////////////////////
+/////////////////                               ///////////////////
+//////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+
+function eraser(x,y)
+{
+  //drawingLayer.activate();
+  paper.project.activeLayer.activate();
+  pathio = new Path();
+  //pathio.strokeColor = 'black';
+  //pathio.strokeWidth = 5;
+
+
+  //  pathio.strokeWidth = 15;
+  pathio.blendMode = 'destination-out';
+  //pathio.add(x,y);
+}
+
+function erase(x,y)
+{
+
+  tool.minDistance = 10;
+  paper.project.activeLayer.activate();
+  pathio = new Path();
+  //  pathio.strokeColor = color;
+  pathio.strokeWidth = 15;
+  pathio.blendMode = 'destination-out';
+  pathio.add(x,y);
+}
+
+
+
+function erase2(x,y,width,name)
+{
+  // Every drag event, add a segment
+  // to the path at the position of the mouse:
+  //pathio.strokeWidth = 15;
+  //pathio.blendMode = 'destination-out';
+  paper.project.activeLayer.activate();
+  pathio.add(x,y);
+  //showName(x,y,name);
+  view.draw();
+  //  console.log(x,y);
+}
 
 
 
@@ -268,18 +420,15 @@ io.on( 'drawCircle', function( data ) {
 //////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
-function drawLine(x,y,color)
+function drawLine(x,y,color,width)
 {
 
   tool.minDistance = 10;
   pathio = new Path();
   pathio.strokeColor = color;
-
-  // Add a segment to the path where
-  // you clicked:
-  //showName(x,y,name);
+  pathio.strokeWidth = width;
   pathio.add(x,y);
-  //  console.log(event);
+
   console.log(x,y,color);
 }
 
@@ -296,7 +445,7 @@ function drawLine2(x,y,name)
 }
 
 
-function emitLine(x,y,color,which,name) {
+function emitLine(x,y,color,which,name,width) {
 
   // An object to describe the line draw data
   var data;
@@ -305,6 +454,7 @@ function emitLine(x,y,color,which,name) {
     y:y,
     c:color,
     n:name,
+    wd:width,
     w:which
   };
 
@@ -323,7 +473,7 @@ io.on( 'drawLine', function( data ) {
 
   if(data.w == 1)
   {
-    drawLine(data.x,data.y,data.c);
+    drawLine(data.x,data.y,data.c,data.wd);
   }
   else
   {
@@ -334,6 +484,14 @@ io.on( 'drawLine', function( data ) {
 
 
 
+
+///////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+///////////////////                             /////////////////////
+//////////////////   Name   SECTION          ////////////////////
+/////////////////                               ///////////////////
+//////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 
 
 

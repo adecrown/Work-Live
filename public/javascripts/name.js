@@ -1,6 +1,6 @@
 var joinRoom, displayName;
 
-
+//https://www.twiddla.com/mfwe4m
 function __(id)
 {
   return document.getElementById(id);
@@ -9,18 +9,27 @@ function __(id)
 
 if(getCookie("displayName") != "" && getCookie("joinRoom") != "")
 {
-  refer();
+  __("sNam")
+  refer2();
+}
+
+if(getCookie("displayName") != "")
+{
+  __("sName").value =getCookie("displayName");
 }
 
 __("subName").addEventListener("click", function(){
   displayName = __("sName").value;
-  if(displayName !="")
+  if(displayName)
   {
     createCookie("displayName",displayName, 1);
     joinRoom = __("tSession").value;
     createCookie("joinRoom",joinRoom, 1);
 
-    refer();
+    refer2();
+  }
+  else {
+    __("sNam").className="form-group has-error";
   }
 });
 
@@ -28,6 +37,31 @@ __("subName").addEventListener("click", function(){
 
 
 
+function refer2()
+{
+  var whereto = document.getElementById('connectTo').value;
+  if(whereto == "student")
+  {
+    if(joinRoom)
+    {
+      window.location.href = '/sview';
+    }
+    else {
+      __("tSess").className="form-group has-error";
+    }
+
+  }
+  else if(whereto == "teacher")
+  {
+    window.location.href = '/students';
+  }
+  else
+  {
+    window.location.href = document.referrer;
+  }
+
+  console.log(document.referrer);
+}
 
 
 function refer()

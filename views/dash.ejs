@@ -8,13 +8,24 @@
 
   <title>Work Live</title>
   <!--<script src="../js/inline.js"></script>-->
-    <link rel="stylesheet" href="stylesheets/style.css">
+  <link rel="stylesheet" href="stylesheets/style.css">
   <link rel="stylesheet" href="dash.css">
   <script src="socket.io/socket.io.js"></script>
-
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <body>
+  <button name="mDraw" id="sendIt" value="<%= user._id %>">
+    <!--  <span class="round"></span>-->
+  </button>
+<div id="imageHolder" style="display: none"></div>
+
+
+  <button name="mDrawSession" id="mDrawSession"  value="<%= user.teacher.username %>">
+    <!--<span class="round"></span>-->
+  </button>
   <section class="outer_body">
     <section class="inner_body">
       <div class="dashboard" id="dashboard">
@@ -22,58 +33,53 @@
         </div>
       </div>
       <!--<div class="jumbotron">
-      </div>-->
-      <div class="controls">
-        <div class="vb">
-          <a href="/overview">
-          <button name="mDraw" id="sendIt" class="round red" value="<%= user._id %>">View
-            <span class="round"></span>
-          </button>
-        </a>
+    </div>-->
+
+
+    <div class="drawtm">
+      <div class="tls contInfo">
+        <button id="dCircle" class="btn btn-success">Circle</button>
+
+        <div class="dropdown">
+          <button class="btn btn-success dropdown-toggle"  data-toggle="dropdown">Lines<span class="caret"></span></button>
+
+          <ul class="dropdown-menu">
+            <li><a id="dLine" >Single Line</a></li>
+            <li>  <a  id="dMulti">Multi Line</a></li>
+            <li>  <a href="#">Link 3</a></li>
+          </ul>
         </div>
-        <div class="vb">
-          <button name="mDrawSession" id="mDrawSession" class="round green" value="<%= user.teacher.username %>">Begin
-            <span class="round"></span>
-          </button>
+
+        <button id="dText" class="btn btn-success">Text</button>
+        <button id="dErase" class="btn btn-danger">Erase</button>
+        <input type="number" value="2" id="numeberWidth" class="cot-btn">
+
+        <input type="color" value="#005E7A" id="drawing-color" class="cot-btn">
+        <input type="color" value="#005E7A" id="drawing-background-color" class="cot-btn">
+        <button id="dClear" class="btn btn-danger">Clear</button>
+
+
+        <div class="dropdown">
+          <button class="dropbtn">Brushes</button>
+          <div class="dropdown-content">
+            <a href="#">Link 3</a>
+          </div>
         </div>
+
+        <button id="dImage" class="btn btn-success">Image</button>
       </div>
 
-      <div class="drawtm">
-        <div>
-          <button id="dCircle" class="dropbtn">Circle</button>
-
-          <div class="dropdown">
-            <button class="dropbtn">Lines</button>
-            <div class="dropdown-content">
-              <a id="dLine">Single Line</a>
-              <a  id="dMulti">Multi Line</a>
-              <a href="#">Link 3</a>
-            </div>
-          </div>
-
-          <button id="dText" class="dropbtn">Text</button>
+      <br/>
 
 
-          <input type="color" value="#005E7A" id="drawing-color" class="cot-btn">
-
-          <div class="dropdown">
-            <button class="dropbtn">Brushes</button>
-            <div class="dropdown-content">
-              <a href="#">Link 3</a>
-            </div>
-          </div>
-          <input type="color" value="#005E7A" id="drawing-background-color" class="cot-btn">
-        </div>
-        <br/>
-        <br/>
-
+      <div>
         <% var teachUsername = user.teacher.username %>
         <script>
         var getTUsername = <%- JSON.stringify(teachUsername) %>;
         </script>
         <canvas id="draw"  keepalive="true" resize></canvas>
+        </div
       </div>
-
 
     </section>
   </section>
