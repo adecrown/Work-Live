@@ -158,7 +158,16 @@ io.sockets.on('connection', function (socket) {
 
   });
 
+  socket.on( 'draweraser', function( data, session ) {
 
+    console.log( "session " + session + " erase:");
+    console.log( data );
+
+    //socket.in.emit( 'drawCircle', data );
+    io.sockets.in(socket.room).emit( 'draweraser', data );
+    //socket.broadcast.emit( 'drawCircle', data );
+
+  });
 
 
   socket.on( 'drawMultiLine', function( data, session ) {

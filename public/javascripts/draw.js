@@ -25,7 +25,7 @@ function randomColor() {
 
 }
 
-var wTool = "stLine";
+var wTool = "line";
 
 function __(id)
 {
@@ -97,6 +97,8 @@ if(pageName2 != "live")
 
 var pathio;
 var drawnBy;
+var lWidth;
+var maincolor;
 //var lWidth;
 // every time the user drags their mouse
 // this function will be executed
@@ -138,7 +140,9 @@ function onMouseDrag(event) {
     }
     else if(wTool == "line")
     {
+
       drawLine2(event.point.x,event.point.y,drawnBy);
+      //emitLine2(event.point.x,event.point.y,drawnBy,2)
       emitLine(event.point.x,event.point.y,"",2,drawnBy,"")
     }
     else if(wTool == "brush")
@@ -154,8 +158,10 @@ function onMouseDrag(event) {
     }
     else if(wTool=="eraser")
     {
-      eraser(event.point.x,event.point.y);
+      //eraser(event.point.x,event.point.y);
       //erase2(event.point.x,event.point.y,"","");
+      eraser(x,y,lWidth,drawnBy);
+      emiteraser( x, y, lWidth, drawnBy)
     }
 
     /*  if(pageName2 != "live")
@@ -171,8 +177,8 @@ function onMouseDrag(event) {
 function onMouseDown(event) {
   if(pageName2 != "live")
   {
-    var maincolor = __("drawing-color").value;
-    var lWidth = __('numeberWidth').value;
+    maincolor = __("drawing-color").value;
+    lWidth = __('numeberWidth').value;
     if(wTool == "text")
     {
       console.log(event);
@@ -186,7 +192,10 @@ function onMouseDown(event) {
     }
     else if(wTool == "line")
     {
+
       drawLine(event.point.x,event.point.y,maincolor,lWidth);
+      //drawLine(event.point.x,event.point.y,maincolor,lWidth,drawnBy);
+      //emitLine1(event.point.x,event.point.y,maincolor,which,lWidth)
       emitLine(event.point.x,event.point.y,maincolor,1,drawnBy,lWidth)
     }
     else if(wTool == "brush")
@@ -196,12 +205,12 @@ function onMouseDown(event) {
       drawBrush(x,y);
       emitBrush(event,x,y,1)
     }
-    else if(wTool=="eraser")
+    /*else if(wTool=="eraser")
     {
-      eraser(event.point.x,event.point.y);
-      //  erase(event.point.x,event.point.y);
-    }
-  }
+    eraser(event.point.x,event.point.y);
+    //  erase(event.point.x,event.point.y);
+  }*/
+}
 }
 
 
@@ -316,6 +325,7 @@ function drawCircle( x, y, radius, color,name ) {
   // Render the circle with Paper.js
   var circle = new Path.Circle( new Point( x, y ), radius );
   circle.fillColor = new Color( color.red, color.green, color.blue, color.alpha );
+
   showName(x,y,name)
   console.log(project.exportJSON())
   // Refresh the view, so we always get an update, even if the tab is not in focus
@@ -365,49 +375,34 @@ io.on( 'drawCircle', function( data ) {
 //////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
-
-function eraser(x,y)
+function eraser(x,y,radius,name)
 {
-  //drawingLayer.activate();
-  paper.project.activeLayer.activate();
-  pathio = new Path();
-  //pathio.strokeColor = 'black';
-  //pathio.strokeWidth = 5;
-
-
-  //  pathio.strokeWidth = 15;
-  pathio.blendMode = 'destination-out';
-  //pathio.add(x,y);
-}
-
-function erase(x,y)
-{
-
-  tool.minDistance = 10;
-  paper.project.activeLayer.activate();
-  pathio = new Path();
-  //  pathio.strokeColor = color;
-  pathio.strokeWidth = 15;
-  pathio.blendMode = 'destination-out';
-  pathio.add(x,y);
+  var circle = new Path.Circle(new Point(x, y), radius);
+  circle.fillColor = 'red';
+  circle.blendMode = 'destination-out';
+  showName(x,y,name);
 }
 
 
+function emiteraser( x, y, radius, name) {
+  var data = {
+    x: x,
+    y: y,
+    radius: radius,
+    name: name
+  };
+  emitPatterns('draweraser',data);
 
-function erase2(x,y,width,name)
-{
-  // Every drag event, add a segment
-  // to the path at the position of the mouse:
-  //pathio.strokeWidth = 15;
-  //pathio.blendMode = 'destination-out';
-  paper.project.activeLayer.activate();
-  pathio.add(x,y);
-  //showName(x,y,name);
-  view.draw();
-  //  console.log(x,y);
 }
 
 
+io.on( 'draweraser', function( data ) {
+
+  console.log( 'draweraser event recieved:', data );
+
+  eraser( data.x, data.y, data.radius, data.name);
+
+})
 
 
 
@@ -420,14 +415,17 @@ function erase2(x,y,width,name)
 //////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
+
+
+
 function drawLine(x,y,color,width)
 {
 
-  tool.minDistance = 10;
+  //tool.minDistance = 10;
   pathio = new Path();
   pathio.strokeColor = color;
   pathio.strokeWidth = width;
-  pathio.add(x,y);
+  //pathio.add(x,y);
 
   console.log(x,y,color);
 }
@@ -438,12 +436,12 @@ function drawLine2(x,y,name)
 {
   // Every drag event, add a segment
   // to the path at the position of the mouse:
+
   pathio.add(x,y);
   showName(x,y,name);
   view.draw();
   console.log(x,y);
 }
-
 
 function emitLine(x,y,color,which,name,width) {
 
@@ -463,6 +461,39 @@ function emitLine(x,y,color,which,name,width) {
 }
 
 
+/*
+function emitLine1(x,y,color,which,width) {
+
+// An object to describe the line draw data
+var data;
+data = {
+x:x,
+y:y,
+c:color,
+wd:width,
+w:which
+};
+
+//console.log(data);
+emitPatterns('drawLine',data);
+}
+
+
+
+function emitLine2(x,y,name,which) {
+
+// An object to describe the line draw data
+var data;
+data = {
+x:x,
+y:y,
+n:name,
+w:which
+};
+
+//console.log(data);
+emitPatterns('drawLine',data);
+}*/
 
 io.on( 'drawLine', function( data ) {
 
@@ -473,10 +504,13 @@ io.on( 'drawLine', function( data ) {
 
   if(data.w == 1)
   {
+    //new Layer();
     drawLine(data.x,data.y,data.c,data.wd);
   }
   else
   {
+
+    //new Layer();
     drawLine2(data.x,data.y,data.n);
   }
 
