@@ -26,35 +26,59 @@
       </script>
 
 
+      <nav class="navbar navbar-default">
+        <div class="tls container-fluid">
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><a id="dCircle">Circle</a></li>
 
-      <button id="dCircle" class="btn btn-success">Circle</button>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lines<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a id="dLine" >Single Line</a></li>
+                  <li>  <a  id="dMulti">Multi Line</a></li>
+                  <li>  <a href="#">Link 3</a></li>
+                </ul>
+              </li>
 
-      <div class="dropdown">
-        <button class="btn btn-success dropdown-toggle"  data-toggle="dropdown">Lines<span class="caret"></span></button>
+              <li><a id="dText">Text</a></li>
+              <li><a id="dErase">Erase</a></li>
 
-        <ul class="dropdown-menu">
-          <li><a id="dLine" >Single Line</a></li>
-          <li>  <a  id="dMulti">Multi Line</a></li>
-          <li>  <a href="#">Link 3</a></li>
-        </ul>
-      </div>
+              <form class="navbar-form navbar-left">
+                <div class="form-group">
+                  <input type="number" value="2" id="numeberWidth" class="form-control">
+                  <input type="color" value="#005E7A" id="drawing-color" class="cot-btn">
+                  <input type="color" value="#005E7A" id="drawing-background-color" class="cot-btn">
+                </div>
+              </form>
 
-      <button id="dText" class="btn btn-success">Text</button>
-      <button id="dErase" class="btn btn-danger">Erase</button>
-      <input type="number" value="2" id="numeberWidth" class="cot-btn">
+              <li><a id="dClear">Clear</a></li>
 
 
-      <input type="color" value="#005E7A" id="drawing-color" class="cot-btn">
-      <input type="color" value="#005E7A" id="drawing-background-color" class="cot-btn">
-      <button id="dClear" class="btn btn-danger">Clear</button>
 
-      <div class="dropdown">
-        <button class="dropbtn">Brushes</button>
-        <div class="dropdown-content">
-          <a href="#">Link 3</a>
+              <li><a id="dImage">Image</a></li>
+
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Layers<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a id="dLayer">Add</a></li>
+                  <li><a id="dRemLayer">Remove</a></li>
+                </ul>
+              </li>
+
+
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Conrols<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a id="dLock">Lock Screen</a></li>
+                  <li><a id="dUnLock">Unlock Screen</a></li>
+                </ul>
+              </li>
+
+            </ul>
+          </div>
         </div>
-      </div>
-      <button id="dImage" class="btn btn-success">Image</button>
+      </nav>
     </div>
 
     <canvas id="draw"  keepalive="true" resize="true"></canvas>

@@ -186,8 +186,7 @@ io.sockets.on('connection', function (socket) {
 
     console.log( "session " + session + " drew:");
     console.log( data );
-
-    io.sockets.in(socket.room).emit( 'drawLine', data );
+   io.sockets.in(socket.room).emit( 'drawLine', data );
 
   });
 
@@ -250,6 +249,16 @@ socket.on( 'removeName', function( data, session ) {
   console.log( data );
 
   io.sockets.in(socket.room).emit( 'removeName', data ,sendUser);
+
+
+});
+
+socket.on( 'drawLock', function( data, session ) {
+
+  console.log( "session " + session + " name:");
+  console.log( data );
+socket.broadcast.to(socket.room).emit( 'drawLock', data ,sendUser);
+  //io.sockets.in(socket.room).emit( 'drawLock', data ,sendUser);
 
 
 });

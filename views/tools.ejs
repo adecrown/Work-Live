@@ -1,49 +1,88 @@
-<div class="contInfo">
-  <button id="dCircle" class="btn btn-success">Circle</button>
+<nav class="navbar navbar-default">
+  <!--<div class="contInfo container-fluid">-->
+  <div class="container-fluid">
 
-  <div class="dropdown">
-    <button class="btn btn-success dropdown-toggle"  data-toggle="dropdown">Lines<span class="caret"></span></button>
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Tools:</a>
+    </div>
 
-    <ul class="dropdown-menu">
-      <li><a id="dLine" >Single Line</a></li>
-      <li>  <a  id="dMulti">Multi Line</a></li>
-      <li>  <a href="#">Link 3</a></li>
-    </ul>
-  </div>
-
-  <button id="dText" class="btn btn-success">Text</button>
-  <button id="dErase" class="btn btn-danger">Erase</button>
-  <input type="number" value="2" id="numeberWidth" class="cot-btn">
-  <input type="color" value="#005E7A" id="drawing-color" class="cot-btn">
-  <input type="color" value="#005E7A" id="drawing-background-color" class="cot-btn">
-
-  <div class="dropdown">
-    <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">Save<span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li><a id="sOline">Save Online</a></li>
-      <li>  <a  id="sCom">Save to computer</a></li>
-      <li>  <a  id="sVt">Invite to join session</a></li>
-    </ul>
-  </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
 
 
-  <button id="dClear" class="btn btn-danger">Clear</button>
+        <!--  <button id="dCircle" class="btn btn-success navbar-btn">Circle</button>-->
+        <li><a id="dCircle">Circle</a></li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lines<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a id="dLine" >Single Line</a></li>
+            <li>  <a  id="dMulti">Multi Line</a></li>
+            <li>  <a href="#">Link 3</a></li>
+          </ul>
+        </li>
 
 
-  <div class="dropdown">
-    <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">Shapes<span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li><a id="sCircle">Circle</a></li>
-    </ul>
-  </div>
+        <li><a id="dText">Text</a></li>
+        <li><a id="dErase">Erase</a></li>
+      </ul>
 
-  <button id="dImage" class="btn btn-success">Image</button>
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="number" value="2" id="numeberWidth" class="form-control">
+          <input type="color" value="#005E7A" id="drawing-color" class="cot-btn">
+          <input type="color" value="#005E7A" id="drawing-background-color" class="cot-btn">
+        </div>
+      </form>
 
 
-  <div class="dropdown">
-    <button class="dropbtn">Brushes</button>
-    <div class="dropdown-content">
-      <a href="#">Link 3</a>
+
+      <ul class="nav navbar-nav navbar-right" id="appnd">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Save<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a id="sOline">Save Online</a></li>
+            <li>  <a  id="sCom">Save to computer</a></li>
+            <li>  <a  id="sVt">Invite to join session</a></li>
+          </ul>
+        </li>
+
+        <li><a id="dClear">Clear</a></li>
+
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shapes<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a id="sCircle">Circle</a></li>
+          </ul>
+        </li>
+
+
+        <li><a id="dImage">Image</a></li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Layers<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a id="dLayer">Add</a></li>
+            <li><a id="dRemLayer">Remove</a></li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Brushes<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <a href="#">Link 3</a>
+          </ul>
+        </li>
+
+
+      </ul>
     </div>
   </div>
-</div>
+</nav>

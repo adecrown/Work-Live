@@ -90,6 +90,31 @@ if(pageName2 != "live")
     imageHold(url);
     emitimageHold(url);
   }
+  __("dLayer").onclick = function()
+  {
+    var id = prompt("Layer name");
+    createLayer(id);
+
+  }
+  __("dRemLayer").onclick = function()
+  {
+    var id = prompt("Layer name");
+    removeLayer(id)
+
+  }
+  if(pageName2 == "sviewt")
+  {
+    __("dLock").onclick = function()
+    {
+      emitLock(1)
+    }
+    __("dUnLock").onclick = function()
+    {
+      emitLock(0)
+    }
+  }
+
+
 }
 
 
@@ -551,9 +576,17 @@ function showName(x,y,name)
   }
   else {
     //console.log("xxxxxxxx")
+    var daspage = getU(document.URL,"/",1);
+    if(daspage == "dash")
+    {
+      document.getElementById(name).style.left = (x+300) + 'px';
+      document.getElementById(name).style.top  = (y+150) + 'px';
+    }
+    else {
+      document.getElementById(name).style.left = x + 'px';
+      document.getElementById(name).style.top  = (y+40) + 'px';
+    }
 
-    document.getElementById(name).style.left = x + 'px';
-    document.getElementById(name).style.top  = (y+40) + 'px';
   }
 
   /*
@@ -966,16 +999,20 @@ uploadCode();
 
 function loadFromCookie()
 {
-  var answer = confirm("Would you like to load your previous drawing?")
-  if (answer)
+  var jsdata = localStorage.getItem("pdata");
+  if(jsdata)
   {
-    var jsdata = localStorage.getItem("pdata");
-    paper.project.importJSON(jsdata);
-    console.log("json collected from cookie");
+    var answer = confirm("Would you like to load your previous drawing?")
+    if (answer)
+    {
+      paper.project.importJSON(jsdata);
+      console.log("json collected from cookie");
+    }
+    else {
+      saveJson("teacher",getTUsername,paper.project.exportJSON());
+    }
   }
-  else {
-    saveJson("teacher",getTUsername,paper.project.exportJSON());
-  }
+
 }
 
 
@@ -1018,7 +1055,88 @@ if(pageWhich != "dash")
   loadJSON();
 }
 
+/*
+function createLayer(name){
+var newid = project.layers.length + 1;
+var id = new Layer();
+id.activate();
+//var link = '<a onclick="removeLayer(&quot;'+newid+'&quot;)"> '+name+'</a>';
+var link = '<a onclick="project.removeLayer('+newid+')"> '+name+'</a>';
+htmlAppend("toolsE","li",link)
+//  var csnc = '<p onclick="previewFiles()"> X</p>';
 
+}
+
+function removeLayer(id){
+project.layers[id].remove();
+}
+
+function changeLayer(id){
+project.layers[1].remove();
+id.remove();
+}
+
+
+// creates a new element
+function htmlAppend(name,element,result)
+{
+var docName = document.getElementById(name);
+var newElements = document.createElement(element);
+newElements.innerHTML = result;
+
+for(var i = 0;i < newElements.innerHTML.length;i++)
+{
+docName.appendChild(newElements);
+}
+}
+*/
+
+
+var lockScreen = function()
+{
+  var docName = document.getElementsByTagName("body");
+  var newElements = document.createElement("div");
+  newElements.id = "lockScreen";
+  newElements.className = "overlay";
+  newElements.innerHTML = "<p class='lockedText'>Your screen/session has been Locked by your teacher</p>";
+  document.getElementsByTagName("body")[0].appendChild(newElements);
+}
+
+
+
+var unlockScreen = function()
+{
+  var elem = document.getElementById("lockScreen");
+  elem.parentNode.removeChild(elem);
+}
+
+
+function emitLock(which) {
+
+  // An object to describe the circle's draw data
+  var data;
+  data = {
+    w:which
+  };
+
+  //console.log(data);
+  emitPatterns('drawLock',data);
+}
+
+
+io.on( 'drawLock', function( data ) {
+
+  console.log( 'drawLock event recieved:', data );
+
+  if(data.w == 1)
+  {
+    lockScreen();
+  }
+  else
+  {
+    unlockScreen();
+  }
+})
 
 
 function emitPatterns(name,data) {

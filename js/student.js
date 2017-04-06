@@ -121,10 +121,11 @@ function getCookie(cname)
 }
 
 
-div = document.createElement("div");
-div.className= "chngName";
-div.innerHTML = '<p id="chngName">Change name: '+getCookie("displayName")+' or Sessoin: '+getCookie("joinRoom")+'</p>';
-document.body.appendChild(div);
+div = document.createElement("li");
+//div.className= "chngName";
+div.innerHTML = '<p id="chngName" class="navbar-text">Change name: '+getCookie("displayName")+' or Sessoin: '+getCookie("joinRoom")+'</p>';
+document.getElementById("appnd").appendChild(div);
+//document.body.appendChild(div);
 
 document.getElementById('chngName').onclick = function()
 {
