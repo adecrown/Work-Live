@@ -37,13 +37,12 @@
                 <ul class="dropdown-menu">
                   <li><a id="dLine" >Single Line</a></li>
                   <li>  <a  id="dMulti">Multi Line</a></li>
-                  <li>  <a href="#">Link 3</a></li>
                 </ul>
               </li>
 
-              <li><a id="dText">Text</a></li>
-              <li><a id="dErase">Erase</a></li>
+              <li><a id="dText"  data-toggle="modal" data-target="#textpop">Text</a></li>
 
+              <li><a id="dImage">Image</a></li>
               <form class="navbar-form navbar-left">
                 <div class="form-group">
                   <input type="number" value="2" id="numeberWidth" class="form-control">
@@ -51,20 +50,16 @@
                   <input type="color" value="#005E7A" id="drawing-background-color" class="cot-btn">
                 </div>
               </form>
-
+              <li><a id="dErase">Erase</a></li>
+              <li>  <a  id="sCom">Save</a></li>
               <li><a id="dClear">Clear</a></li>
 
 
 
-              <li><a id="dImage">Image</a></li>
 
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Layers<span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a id="dLayer">Add</a></li>
-                  <li><a id="dRemLayer">Remove</a></li>
-                </ul>
-              </li>
+
+
+
 
 
               <li class="dropdown">
@@ -86,6 +81,73 @@
     canvas="draw";
     </script>
   </section>
+
+
+
+  <div class="modal fade" tabindex="-1" role="dialog" id="textpop">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Add Text</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" id="Inputtxt" placeholder="text">
+          </div>
+          <center>
+            <form class="form-inline">
+              <div class="form-group">
+                <select id="fontFm" class="form-control">
+                  <option value="Arial">Arial</option>
+                  <option value="Georgia">Georgia</option>
+                  <option value="Book Antiqua">Book Antiqua</option>
+                  <option value="Helvetica">Helvetica</option>
+                  <option value="Tahoma">Tahoma</option>
+                  <option value="Verdana">Verdana</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <select id="fontSz" class="form-control">
+                  <option value="5px">5</option>
+                  <option value="10px">10</option>
+                  <option value="13px">12</option>
+                  <option value="15px">15</option>
+                  <option value="18px">18</option>
+                  <option value="20px">20</option>
+                  <option value="25px">25</option>
+                  <option value="30px">30</option>
+                  <option value="35px">35</option>
+                  <option value="40px">40</option>
+                  <option value="45px">45</option>
+                  <option value="50px">50</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <select id="fontWt" class="form-control">
+                  <option value="normal">Normal</option>
+                  <option value="bold">Bold</option>
+                  <option value="bolder">Bolder</option>
+                  <option value="lighter">Lighter</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <input type="color" value="#005E7A" id="fontCr" class="cot-btn">
+              </div>
+            </form>
+          </center>
+
+        </div>
+        <div class="modal-footer">
+          <div id="prevText"></div>
+        </div>
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 
 
   <script src="javascripts/draw.js" canvas="draw" type="text/paperscript"></script>

@@ -182,3 +182,8 @@ border-top: 10px solid #4CAF50;
   font-size: 18px;
   border: floralwhite 1px inset;
 }
+
+.navbar-text
+{
+  cursor: pointer;
+}

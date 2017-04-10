@@ -26,6 +26,7 @@ function randomColor() {
 }
 
 var wTool = "line";
+var fontSz,fontWt,fontFm,fontCr,prevText;
 
 function __(id)
 {
@@ -90,18 +91,10 @@ if(pageName2 != "live")
     imageHold(url);
     emitimageHold(url);
   }
-  __("dLayer").onclick = function()
-  {
-    var id = prompt("Layer name");
-    createLayer(id);
 
-  }
-  __("dRemLayer").onclick = function()
-  {
-    var id = prompt("Layer name");
-    removeLayer(id)
 
-  }
+
+
   if(pageName2 == "sviewt")
   {
     __("dLock").onclick = function()
@@ -114,13 +107,74 @@ if(pageName2 != "live")
     }
   }
 
+  if(getpage2 != "dash")
+  {
+
+    var imageSaver = document.getElementById('sCom');
+    imageSaver.addEventListener('click', saveImage, false);
+
+  }
+
+
+  ///////////////////                             /////////////////////
+  //////////////////   pop-up text                ////////////////////
+  /////////////////                               ///////////////////
+
+  __("Inputtxt").addEventListener('keyup', prevt, false);
+
+  __("fontWt").addEventListener('change',
+  function fw() {
+    __("prevText").style.fontWeight = this.value;
+    fontWt=this.value;
+  });
+
+  __("fontSz").addEventListener('change',
+  function fw() {
+    __("prevText").style.fontSize = this.value;
+    fontSz=this.value;
+  });
+
+  __("fontFm").addEventListener('change',
+  function fw() {
+    __("prevText").style.fontFamily = this.value;
+    fontFm=this.value;
+  });
+
+  __("fontCr").addEventListener('change',
+  function fw() {
+    __("prevText").style.color = this.value;
+    fontCr = this.value;
+  });
+
 
 }
 
 
 
 
+function prevt() {
+
+  __('prevText').innerHTML = this.value;
+  __("prevText").style.textAlign = "center";
+  prevText = this.value;
+}
+
+
+
+
+
+
+function saveImage(e) {
+  this.href = paper.view.element.toDataURL({
+    format: 'png',
+    quality: 0.8
+  });
+  this.download = 'canvas.png'
+}
+
+
 var pathio;
+var veron;
 var drawnBy;
 var lWidth;
 var maincolor;
@@ -166,6 +220,7 @@ function onMouseDrag(event) {
     else if(wTool == "line")
     {
 
+
       drawLine2(event.point.x,event.point.y,drawnBy);
       //emitLine2(event.point.x,event.point.y,drawnBy,2)
       emitLine(event.point.x,event.point.y,"",2,drawnBy,"")
@@ -204,19 +259,23 @@ function onMouseDown(event) {
   {
     maincolor = __("drawing-color").value;
     lWidth = __('numeberWidth').value;
+
     if(wTool == "text")
     {
       console.log(event);
       var x = event.downPoint.x;
       var y = event.downPoint.y;
 
-      var text = prompt("Your text");
-
-      drawText(x,y,text,maincolor,drawnBy);
-      emitText(x,y,text,maincolor,drawnBy);
+      //var text = prompt("Your text");
+      //var fontSz,fontWt,fontFm,fontCr,prevText;
+      //drawText(x,y,text,maincolor,drawnBy);
+      //emitText(x,y,text,maincolor,drawnBy);
+      drawText(x,y,prevText,fontCr,fontSz,fontWt,fontFm,drawnBy);
+      emitText(x,y,prevText,fontCr,fontSz,fontWt,fontFm,drawnBy);
     }
     else if(wTool == "line")
     {
+
 
       drawLine(event.point.x,event.point.y,maincolor,lWidth);
       //drawLine(event.point.x,event.point.y,maincolor,lWidth,drawnBy);
@@ -441,8 +500,6 @@ io.on( 'draweraser', function( data ) {
 /////////////////////////////////////////////////////////////////
 
 
-
-
 function drawLine(x,y,color,width)
 {
 
@@ -456,13 +513,37 @@ function drawLine(x,y,color,width)
 }
 
 
-
 function drawLine2(x,y,name)
 {
   // Every drag event, add a segment
   // to the path at the position of the mouse:
 
   pathio.add(x,y);
+  showName(x,y,name);
+  view.draw();
+  console.log(x,y);
+}
+
+
+function drawLiner(x,y,color,width)
+{
+
+  //tool.minDistance = 10;
+  veron = new Path();
+  veron.strokeColor = color;
+  veron.strokeWidth = width;
+  //pathio.add(x,y);
+
+  console.log(x,y,color);
+}
+
+
+function drawLiner2(x,y,name)
+{
+  // Every drag event, add a segment
+  // to the path at the position of the mouse:
+
+  veron.add(x,y);
   showName(x,y,name);
   view.draw();
   console.log(x,y);
@@ -486,39 +567,6 @@ function emitLine(x,y,color,which,name,width) {
 }
 
 
-/*
-function emitLine1(x,y,color,which,width) {
-
-// An object to describe the line draw data
-var data;
-data = {
-x:x,
-y:y,
-c:color,
-wd:width,
-w:which
-};
-
-//console.log(data);
-emitPatterns('drawLine',data);
-}
-
-
-
-function emitLine2(x,y,name,which) {
-
-// An object to describe the line draw data
-var data;
-data = {
-x:x,
-y:y,
-n:name,
-w:which
-};
-
-//console.log(data);
-emitPatterns('drawLine',data);
-}*/
 
 io.on( 'drawLine', function( data ) {
 
@@ -530,13 +578,13 @@ io.on( 'drawLine', function( data ) {
   if(data.w == 1)
   {
     //new Layer();
-    drawLine(data.x,data.y,data.c,data.wd);
+    drawLiner(data.x,data.y,data.c,data.wd);
   }
   else
   {
 
     //new Layer();
-    drawLine2(data.x,data.y,data.n);
+    drawLiner2(data.x,data.y,data.n);
   }
 
 })
@@ -733,17 +781,23 @@ io.on( 'drawMultiLine', function( data ) {
 /////////////////////////////////////////////////////////////////
 
 
-function drawText(x,y,word,color,name)
+function drawText(x,y,word,color,size,weight,family,name)
 {
-  var text = new PointText(new Point(x, y));
-  text.justification = 'center';
-  text.fillColor = color;
-  text.content = word;
-  showName(x,y,name);
-  view.draw();
+  if(word)
+  {
+    var text = new PointText(new Point(x, y));
+    text.justification = 'center';
+    text.fillColor = color;
+    text.content = word;
+    text.fontSize=size;
+    text.fontWeight=weight;
+    text.fontFamily=family;
+    showName(x,y,name);
+    view.draw();
+  }
 }
 
-function emitText(x,y,word,color,name) {
+function emitText(x,y,word,color,size,weight,family,name) {
 
   // Each Socket.IO connection has a unique session id
   var sessionId = io.socket.sessionid;
@@ -754,7 +808,10 @@ function emitText(x,y,word,color,name) {
     y: y,
     word: word,
     name: name,
-    color: color
+    color: color,
+    size:size,
+    weight:weight,
+    fam:weight
   };
 
   // send a 'drawCircle' event with data and sessionId to the server
@@ -771,7 +828,7 @@ io.on( 'drawText', function( data ) {
 
   // Draw the circle using the data sent
   // from another user
-  drawText( data.x, data.y, data.word, data.color, data.name);
+  drawText( data.x, data.y, data.word, data.color,data.size,data.weight,data.fam, data.name);
 
 })
 
@@ -874,8 +931,7 @@ io.on( 'drawBrush', function( data ) {
 var drawingColorBackEl = document.getElementById('drawing-background-color')
 function changeBg(value)
 {
-  var canvasLayer = document.getElementById("draw");
-  canvasLayer.style.background = value;
+  project.view.element.style.backgroundColor = value;
 }
 
 function emitchangeBg(value) {

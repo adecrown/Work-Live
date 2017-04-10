@@ -186,7 +186,8 @@ io.sockets.on('connection', function (socket) {
 
     console.log( "session " + session + " drew:");
     console.log( data );
-   io.sockets.in(socket.room).emit( 'drawLine', data );
+   //io.sockets.in(socket.room).emit( 'drawLine', data );
+   socket.broadcast.to(socket.room).emit( 'drawLine', data );
 
   });
 
@@ -227,7 +228,8 @@ io.sockets.on('connection', function (socket) {
     console.log( "session " + session + " drew:");
     console.log( data );
 
-    io.sockets.in(socket.room).emit( 'drawText', data );
+    //io.sockets.in(socket.room).emit( 'drawText', data );
+    socket.broadcast.to(socket.room).emit( 'drawText', data );
 
 
   });
