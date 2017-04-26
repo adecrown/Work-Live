@@ -28,10 +28,7 @@ require('./config/passport')(passport); // pass passport for configuration
 // Configure our application
 app.configure(function(){
   app.set('port', process.env.PORT || 8081);
-  //  app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
-  //app.engine('html', require('ejs').renderFile);
-  //  app.engine('.php', require('ejs').renderFile);
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
@@ -51,9 +48,6 @@ app.configure(function(){
 
   // set up our express application
   app.use(morgan('dev')); // log every request to the console
-  //  app.use(cookieParser()); // read cookies (needed for auth)
-  //app.use(bodyParser()); // get information from html forms
-
 });
 
 // Configure error handling
@@ -69,22 +63,6 @@ app.configure('development', function(){
 require('./routes/routes.js')(app,passport);
 
 
-// Setup Routes
-//app.get('/', routes.index);
-//app.get('/users', user.list);
-
-/*app.get('/', function(req, res){
-res.render("index.php");
-});
-
-app.get('/dash', function(req, res){
-res.render("dash.php");
-});
-
-app.get('/sview', function(req, res){
-res.render("sview.php");
-});
-*/
 // Enable Socket.io
 var server = http.createServer(app).listen( app.get('port') );
 var io = require('socket.io').listen( server );
@@ -292,11 +270,5 @@ socket.on('disconnect', function () {
   socket.broadcast.to(socket.room).emit('updatechat', 'SERVER', socket.username + ' has left room');
   socket.emit('updaterooms', rooms, socket.room);
 });
-
-
-/* socket.on('sendchat', function (data) {
-// we tell the client to execute 'updatechat' with 2 parameters
-io.sockets.in(socket.room).emit('updatechat', socket.username, data);
-});*/
 
 });

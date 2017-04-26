@@ -137,8 +137,6 @@ module.exports = function(passport) {
   },
   function(req, idss, jsondata, done) {
     process.nextTick(function() {
-      // find a user whose username is the same as the forms username
-      // we are checking to see if the user trying to login already exists
       User.findOne({ 'codeJson.idss' :  idss }, function(err, user) {
         // if there are any errors, return the error
         if (err)
@@ -152,18 +150,14 @@ module.exports = function(passport) {
               console.log(err);
             }
           });
-          //return done(null, false, req.flash('kMessage', 'That username is already taken.'));
         } else {
-
-          // if there is no user with that username
-          // create the user
           var newData            = new User();
 
-          // set the user's local credentials
+          
           newData.codeJson.idss   = idss;
           newData.codeJson.jsondata = jsondata;
 
-          // save the user
+
           newData.save(function(err) {
             if (err)
             throw err;
@@ -188,14 +182,11 @@ module.exports = function(passport) {
   },
   function(req, username, jsondata, done) {
     process.nextTick(function() {
-      // find a user whose username is the same as the forms username
-      // we are checking to see if the user trying to login already exists
       User.findOne({ 'teacher.username' :  username }, function(err, user) {
         // if there are any errors, return the error
         if (err)
         return done(err);
 
-        // check to see if theres already a user with that username
         if (user) {
           user.teacher.jsondata = jsondata;
           user.save(function (err) {
@@ -203,7 +194,6 @@ module.exports = function(passport) {
               console.log(err);
             }
           });
-          //return done(null, false, req.flash('kMessage', 'That username is already taken.'));
         }
 
     });
