@@ -11,7 +11,7 @@ include_once '../inc/checklogin.php';
   <title>Work Live</title>
   <!--<script src="../js/inline.js"></script>-->
   <link rel="stylesheet" href="../css/dash.css">
-  <script src="http://104.199.78.66:8081/socket.io/socket.io.js"></script>
+  <script src="http://104.199.59.63:8081/socket.io/socket.io.js"></script>
 
 </head>
 

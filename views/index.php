@@ -3,7 +3,7 @@
 <head>
   <title>df</title>
   <link rel="stylesheet" href="../public/stylesheets/style.css">
-  <script src="http://104.199.78.66:8081/socket.io/socket.io.js"></script>
+  <script src="http://104.199.59.63:8081/socket.io/socket.io.js"></script>
 
 </head>
 <body style="padding:0">
@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    
+
     <canvas id="draw"  keepalive="true" resize="true"></canvas>
     <script>
     canvas="draw";

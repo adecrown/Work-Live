@@ -1,0 +1,158 @@
+
+<!doctype html>
+<html>
+<head>
+  <title>ds</title>
+  <link rel="stylesheet" href="stylesheets/style.css">
+  <script src="socket.io/socket.io.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body style="padding:0">
+
+  <section>
+    <div id="imageHolder" style="display: none"></div>
+    <div class="contInfo">
+      <!--<button id="md" value="<?php echo $_SESSION['user_id'] ; ?>"></button>-->
+      <button id="md" value="<%= user._id%>" style="display: none"></button>
+
+      <% var jsndata = jsdata %>
+      <script>
+      var getTest = <%- JSON.stringify(jsndata) %>;
+      //var getTest = <%= jsndata  %>;  //var test is now assigned to getTest which will only work on browsers
+      //console.log(getTest);  // successfully prints 101 on browser
+      //  paper.project.importJSON(getTest);
+      </script>
+
+
+      <nav class="navbar navbar-default">
+        <div class="tls container-fluid">
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><a id="dCircle">Circle</a></li>
+
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lines<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a id="dLine" >Single Line</a></li>
+                  <li>  <a  id="dMulti">Multi Line</a></li>
+                </ul>
+              </li>
+
+              <li><a id="dText"  data-toggle="modal" data-target="#textpop">Text</a></li>
+
+              <li><a id="dImage">Image</a></li>
+              <form class="navbar-form navbar-left">
+                <div class="form-group">
+                  <input type="number" value="2" id="numeberWidth" class="form-control">
+                  <input type="color" value="#005E7A" id="drawing-color" class="cot-btn">
+                  <input type="color" value="#005E7A" id="drawing-background-color" class="cot-btn">
+                </div>
+              </form>
+              <li><a id="dErase">Erase</a></li>
+              <li>  <a  id="sCom">Save</a></li>
+              <li><a id="dClear">Clear</a></li>
+
+
+
+
+
+
+
+
+
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Conrols<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a id="dLock">Lock Screen</a></li>
+                  <li><a id="dUnLock">Unlock Screen</a></li>
+                </ul>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <canvas id="draw"  keepalive="true" resize="true"></canvas>
+    <script>
+    canvas="draw";
+    </script>
+  </section>
+
+
+
+  <div class="modal fade" tabindex="-1" role="dialog" id="textpop">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Add Text</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" id="Inputtxt" placeholder="text">
+          </div>
+          <center>
+            <form class="form-inline">
+              <div class="form-group">
+                <select id="fontFm" class="form-control">
+                  <option value="Arial">Arial</option>
+                  <option value="Georgia">Georgia</option>
+                  <option value="Book Antiqua">Book Antiqua</option>
+                  <option value="Helvetica">Helvetica</option>
+                  <option value="Tahoma">Tahoma</option>
+                  <option value="Verdana">Verdana</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <select id="fontSz" class="form-control">
+                  <option value="5px">5</option>
+                  <option value="10px">10</option>
+                  <option value="13px">12</option>
+                  <option value="15px">15</option>
+                  <option value="18px">18</option>
+                  <option value="20px">20</option>
+                  <option value="25px">25</option>
+                  <option value="30px">30</option>
+                  <option value="35px">35</option>
+                  <option value="40px">40</option>
+                  <option value="45px">45</option>
+                  <option value="50px">50</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <select id="fontWt" class="form-control">
+                  <option value="normal">Normal</option>
+                  <option value="bold">Bold</option>
+                  <option value="bolder">Bolder</option>
+                  <option value="lighter">Lighter</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <input type="color" value="#005E7A" id="fontCr" class="cot-btn">
+              </div>
+            </form>
+          </center>
+
+        </div>
+        <div class="modal-footer">
+          <div id="prevText"></div>
+        </div>
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
+  <script src="javascripts/draw.js" canvas="draw" type="text/paperscript"></script>
+  <script src="sview.js"></script>
+  <script src="javascripts/socket.js"></script>
+  <script src="javascripts/paper.js"></script>
+</body>
+</html>

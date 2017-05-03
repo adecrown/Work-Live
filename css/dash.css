@@ -1,7 +1,7 @@
 .outer_body
 {
   background-color: red;
-  
+
 }
 
 .inner_body
@@ -25,25 +25,29 @@
 {
   width: 900px;
   height: 100px;
-  background-color: grey;
+  background-color: #eea236;
   float: left;
   text-align: center;
 }
 .dashboard
 {
 width: 100px;
-height: 700px;
+height: 612px;
+
 background-color: orange;
 position: relative;
 float: left;
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
 .drawtm
 {
 width: 900px;
-height: 500px;
+height: 612px;
+/*height:100%;*/
 position: relative;
 float: left;
-background-color: green;
+background-color: #F0EAD6;
 }
 
 * {
@@ -134,3 +138,40 @@ background-color: green;
 		background: rgba(161,145,0,.7);
 
 	}
+
+  .namebox {
+    background-color: #e6dede;
+    height: 30px;
+    border-bottom: black;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    font-size: initial;
+    text-align: center;
+        padding-top: 5px;
+        width:100px;
+        text-transform: capitalize;
+}
+
+
+#board a{
+  text-decoration: none;
+  color: black;
+  text-transform: capitalize;
+}
+
+.tls
+{
+  height: 35px;
+}
+
+
+.cv {
+    position: relative;
+    float: left;
+}
+
+#draw
+{
+  height: 550px;
+  width:900px;
+}

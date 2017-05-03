@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+  <title>df</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+
+  <style>
+  body        { padding-top:80px; }
+  </style>
+</head>
+<body style="padding:0">
+  <section id="firstForm" class="col-sm-6 col-sm-offset-3">
+    <!--
+    <input type="text" id="tSession" class="tSession" placeholder="Session"/>
+    <input type="text" id="sName" class="sName" placeholder="Your name"/>
+    <button id="subName" class="dropbtn">Next</button>-->
+
+
+    <div class="form-group" id="tSess">
+      <label>Session:</label>
+      <input type="text" id="tSession" class="form-control" placeholder="Session"/>
+    </div>
+    <div class="form-group" id="sNam">
+      <label>Name:</label>
+      <input type="text" id="sName" class="form-control" placeholder="Your name">
+    </div>
+    <div class="form-group">
+    <label for="connectTo">Connect to:</label>
+    <select id="connectTo" class="form-control">
+      <option value="teacher">Teacher or Create new session</option>
+      <option value="student">Another Student</option>
+    </select>
+  </div>
+    <button id="subName" class="btn btn-warning btn-lg">Next</button>
+
+  </section>
+
+
+  <script src="javascripts/name.js"></script>
+</body>
+</html>

@@ -11,7 +11,7 @@ sec_session_start();
 <head>
   <title>ds</title>
   <link rel="stylesheet" href="../public/stylesheets/style.css">
-  <script src="http://104.199.78.66:8081/socket.io/socket.io.js"></script>
+  <script src="http://104.199.59.63:8081/socket.io/socket.io.js"></script>
 
 </head>
 <body style="padding:0">
@@ -43,7 +43,7 @@ sec_session_start();
         </div>
       </div>
     </div>
-    
+
     <canvas id="draw"  keepalive="true" resize="true"></canvas>
     <script>
     canvas="draw";

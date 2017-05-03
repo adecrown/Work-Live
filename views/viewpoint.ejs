@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+  <title>df</title>
+  <link rel="stylesheet" href="stylesheets/style.css">
+  <script src="socket.io/socket.io.js"></script>
+
+</head>
+<body style="padding:0">
+  <section>
+    <!-- show any messages that come back with authentication -->
+    <% if (message.length > 0) { %>
+      <div class="alert alert-danger"><%= message %></div>
+      <% } %>
+
+
+
+
+      <% var jsonC = jsdata %>
+      <script>
+      var getjsonC;
+      //console.log(<%-jsonC%>);
+      if(<%-jsonC == ""%>)
+      {
+        getjsonC ="";
+      }
+      else {
+        getjsonC = <%- JSON.stringify(jsonC) %>;
+      }
+
+      console.log(getjsonC);
+      </script>
+      <canvas id="draw"   keepalive="true" resize></canvas>
+
+    </section>
+
+    <script src="javascripts/viewdraw.js" canvas="draw" type="text/paperscript"></script>
+    <script src="javascripts/viewSocket.js"></script>
+    <script type="text/javascript" src="javascripts/paper.js"></script>
+  </body>
+  </html>

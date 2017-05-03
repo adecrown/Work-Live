@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <title>ds</title>
+  <link rel="stylesheet" href="stylesheets/style.css">
+  <script src="socket.io/socket.io.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body style="padding:0">
+
+  <section>
+    <div id="imageHolder" style="display: none"></div>
+
+    <!--<button id="md" value="<?php echo $_SESSION['user_id'] ; ?>"></button>-->
+    <button id="md" value="" style="display: none"></button>
+    <% include tools.ejs %>
+
+
+    
+    <canvas id="draw"  keepalive="true" resize="true"></canvas>
+    <script>
+    canvas="draw";
+    </script>
+  </section>
+
+
+  <script src="javascripts/draw.js" canvas="draw" type="text/paperscript"></script>
+  <script src="sview.js"></script>
+  <script src="javascripts/socket.js"></script>
+  <script src="javascripts/paper.js"></script>
+</body>
+</html>
